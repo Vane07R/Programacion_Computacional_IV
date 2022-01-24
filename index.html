@@ -34,11 +34,11 @@
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                           {{operacion}}
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li @click="operar('+')" class="bg-secondary"><button class="btn text-white">+</button></li>
-                            <li @click="operar('-')" class="bg-secondary"><button class="btn text-white">-</button></li>
-                            <li @click="operar('*')" class="bg-secondary"><button class="btn text-white">*</button></li>
-                            <li @click="operar('/')" class="bg-secondary"><button class="btn text-white">/</button></li>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+                            <li @click="operar('+')" class="dropdown-item text-white text-center">+</li>
+                            <li @click="operar('-')" class="dropdown-item text-white text-center">-</li>
+                            <li @click="operar('*')" class="dropdown-item text-white text-center">*</li>
+                            <li @click="operar('/')" class="dropdown-item text-white text-center">/</li>
                         </ul>
                       </div>
                 </div>
