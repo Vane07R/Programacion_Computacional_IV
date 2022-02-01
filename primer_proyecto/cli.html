@@ -75,8 +75,8 @@
                     <table class="table table-dark table-hover">
                         <thead>
                             <tr>
-                                <th>
-                                    Buscar: <input type="text" v-model="cli.search" @keyup="searchCli" class="form-control" placeholder="Ingrese el nombre">
+                                <th colspan="6">
+                                    Buscar: <input type="text" v-model="search" @keyup="searchCli" class="form-control" placeholder="Ingrese el nombre">
                                 </th>
                             </tr>
                             <tr>
@@ -88,12 +88,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="cli in clients" :key="cli.idCli">
+                            <tr v-for="cli in clients" @click="showCli(cli)" :key="cli.idCli">
                                 <td>{{ cli.code }}</td>
                                 <td>{{ cli.name }}</td>
                                 <td>{{ cli.address }}</td>
                                 <td>{{ cli.phone }}</td>
                                 <td>{{ cli.dui }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" @click="deleteCli(cli)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                        </svg>
+                                    </button>
+                                </td>
                             </tr>
                     </table>
                 </div-col>
@@ -113,10 +120,10 @@
         let app = new Vue ({
             el: '#appCli',
             data: {
+                search: '',
                 clients: [],
                 cli: {
                     show_msg: false,
-                    search: '',
                     action: 'new',
                     msg: '',
                     code: '',
@@ -130,6 +137,7 @@
                 getCli: function() {
                     db_sistem.transaction(tx => {
                         tx.executeSql('SELECT * FROM clientes', [], (tx, result) => {
+                            this.clients = [];
                             for (let i = 0; i < result.rows.length; i++) {
                                 this.clients.push(result.rows[i]);
                             }
@@ -137,37 +145,44 @@
                     });
                 },
                 saveCli(){
-                    console.log(this.cli);
-                    if (this.cli.action = "new") {
-                        db_sistem.transaction(tx => {
-                            tx.executeSql('INSERT INTO clientes (code, name, address, phone, dui) VALUES (?, ?, ?, ?, ?)', [this.cli.code, this.cli.name, this.cli.address, this.cli.phone, this.cli.dui],
-                            (tx, res) => {
-                                console.log(res);
-                                this.newCli();
-                                this.getCli();
-                                this.cli.msg = 'Cliente guardado';
-                                this.cli.show_msg = true;
-                            }, (tx, err) => {
-                                console.log(err);
-                                this.cli.msg = 'Error al guardar el cliente';
-                                this.cli.show_msg = true;
-                            });
+                    let sql = '',
+                        values = [],
+                        msg = '';
+                    console.log(this.cli.action);
+                    if (this.cli.action == "new") {
+                        sql = 'INSERT INTO clientes (code, name, address, phone, dui) VALUES (?, ?, ?, ?, ?)';
+                        values = [this.cli.code, this.cli.name, this.cli.address, this.cli.phone, this.cli.dui];
+                        msg = 'Cliente registrado';
+                    } else if (this.cli.action == "edit") {
+                        sql = 'UPDATE clientes SET code = ?, name = ?, address = ?, phone = ?, dui = ? WHERE idCli = ?';
+                        values = [this.cli.code, this.cli.name, this.cli.address, this.cli.phone, this.cli.dui, this.cli.idCli];
+                        msg = 'Cliente actualizado';
+                    } else if (this.cli.action == "delete") {
+                        sql = 'DELETE FROM clientes WHERE idCli = ?';
+                        values = [this.cli.idCli];
+                        msg = 'Cliente eliminado';
+                    }
+
+                    db_sistem.transaction(tx => {
+                        tx.executeSql(sql, values,
+                        (tx, res) => {
+                            this.newCli();
+                            this.getCli();
+                            this.cli.msg = msg;
+                            this.cli.show_msg = true;
+                        }, (tx, err) => {
+                            console.log(err);
+                            this.cli.msg = 'Error al realizar los cambios';
+                            this.cli.show_msg = true;
                         });
-                    } /*else {
-                        db_sistem.transaction(function(tx){
-                            tx.executeSql('UPDATE clientes SET code = ?, name = ?, address = ?, phone = ?, dui = ? WHERE code = ?', [this.cli.code, this.cli.name, this.cli.address, this.cli.phone, this.cli.dui, this.cli.code], function(tx, res){
-                                console.log(res);
-                                this.cli.msg = 'Cliente actualizado';
-                                this.cli.show_msg = true;
-                            }, (tx, err) => {
-                                console.log(err);
-                                this.cli.msg = 'Error al actualizar el cliente';
-                                this.cli.show_msg = true;
-                            });
-                        });
-                    }*/
+                    });
                 },
-                newCli(){
+                showCli(cli) {
+                    console.log(cli.idCli);
+                    this.cli = cli;
+                    this.cli.action = 'edit';
+                },
+                newCli() {
                     this.cli.action = 'new';
                     this.cli.msg = '';
                     this.cli.code = '';
@@ -176,14 +191,23 @@
                     this.cli.phone = '';
                     this.cli.dui = '';
                 },
+                deleteCli(cli) {
+                    this.cli = cli;
+                    this.cli.action = 'delete';
+                    this.saveCli();
+                },
                 searchCli(){
-                    this.clients.filter(cli => cli.name.toLowerCase().indexOf(this.cli.search.toLowerCase())>-1);
+                    this.clients.filter(cli => {
+                        if (cli.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
+                            return cli;
+                        }
+                    });
                     console.log(this.clients, this.cli.search);
                 }
             },
             created(){
                 db_sistem.transaction(tx => {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS clientes (idCli INTEGER PRIMARY KEY AUTOINCREMENT, code INTEGER, name TEXT, address TEXT, phone TEXT, dui TEXT)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS clientes (idCli INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT, name TEXT, address TEXT, phone TEXT, dui TEXT)');
                 }, err => {
                     console.log(err);
                 });
