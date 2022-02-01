@@ -49,8 +49,8 @@
                         </div>
                         <div class="row">
                             <div class="col col-md-5 text-center">
-                                <div v-if="cli.show_msg" class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    {{cli.msg}}
+                                <div v-if="cli.show_msg" class="alert alert-primary alert-dismissible fade show" role="alert">
+                                    {{ cli.msg }}
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                   </div>
                             </div>
@@ -85,6 +85,7 @@
                                 <th>Dirección</th>
                                 <th>Teléfono</th>
                                 <th>DUI</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -136,7 +137,7 @@
             methods: {
                 getCli: function() {
                     db_sistem.transaction(tx => {
-                        tx.executeSql('SELECT * FROM clientes', [], (tx, result) => {
+                        tx.executeSql('SELECT * FROM clientes ORDER BY code', [], (tx, result) => {
                             this.clients = [];
                             for (let i = 0; i < result.rows.length; i++) {
                                 this.clients.push(result.rows[i]);
@@ -192,13 +193,17 @@
                     this.cli.dui = '';
                 },
                 deleteCli(cli) {
-                    this.cli = cli;
-                    this.cli.action = 'delete';
-                    this.saveCli();
+                    if (confirm(`¿Está seguro de eliminar el cliente ${cli.name}?`)) {
+                        this.cli = cli;
+                        this.cli.action = 'delete';
+                        this.saveCli();
+                    }
                 },
                 searchCli(){
                     this.clients.filter(cli => {
                         if (cli.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
+                            console.log(cli);
+                            this.showCli(cli);
                             return cli;
                         }
                     });
