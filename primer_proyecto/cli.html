@@ -32,7 +32,7 @@
                         <div class="row">
                             <div class="col col-md-2">Dirección:</div>
                             <div class="col col-md-3">
-                                <input title="Ingrese la dirección" v-model="cli.address" type="text" class="form-control" required pattern="[A-Za-zÑÁÉÍÓÚÜñáéíóúü0-9]{3,100}">
+                                <input title="Ingrese la dirección" v-model="cli.address" type="text" class="form-control" required pattern="[A-Za-zÑÁÉÍÓÚÜñáéíóúü0-9 ]{3,100}">
                             </div>
                         </div>
                         <div class="row">
@@ -201,9 +201,8 @@
                 },
                 searchCli(){
                     this.clients.filter(cli => {
+                        // Filter by name
                         if (cli.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
-                            console.log(cli);
-                            this.showCli(cli);
                             return cli;
                         }
                     });
