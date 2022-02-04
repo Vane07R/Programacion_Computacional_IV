@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,147 +8,202 @@
     <title>Registro de Alumnos</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
     <div id="appAlm" class="grid grid-cols-1 gap-4 p-4">
-        <div class="container mx-auto border-2 border-stone-600 rounded-t-lg w-11/12 h-fit bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300">
+        <div
+            class="container mx-auto border-2 border-stone-600 rounded-t-lg w-11/12 h-fit bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300">
             <div class="flex justify-between items-center p-4 bg-transparent rounded-t-lg text-white">
                 <h1 class="text-2xl font-bold">Registro de Alumnos</h1>
                 <div class="flex items-center">
-                    <button class="bg-sky-300 hover:bg-sky-200 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full" data-target="form" onclick="showHide(this)">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none" viewBox="0 0 24 24" fill="none">
+                    <button
+                        class="bg-sky-300 hover:bg-sky-200 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full"
+                        data-target="form" onclick="showHide(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none"
+                            viewBox="0 0 24 24" fill="none">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
                         </svg>
                     </button>
                 </div>
             </div>
-            <form method="post" @submit.prevent="saveChanges" @reset.prevent="clearForm" class="bg-cyan-100 overflow-hidden h-fit" id="form" style="transition: all .5s;">
+            <form method="post" @submit.prevent="saveChanges" @reset.prevent="clearForm"
+                class="bg-cyan-100 overflow-hidden h-fit" id="form" style="transition: all .5s;">
                 <div class="flex flex-wrap p-4">
                     <div class="w-full md:w-1/6 px-4">
                         <label for="codigo" class="block text-gray-700 text-sm font-bold mb-2">
                             Codigo
                         </label>
-                        <input title="Ingrese el código de estudiante" type="text" name="codigo" id="codigo" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Codigo" v-model="student.code">
+                        <input title="Ingrese el código de estudiante" type="text" name="codigo" id="codigo"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Codigo" v-model="student.code">
                     </div>
                     <div class="w-full md:w-1/3 px-4">
                         <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nombre</label>
-                        <input title="Ingrese el nombre del alumno" type="text" name="name" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="student.name" placeholder="Nombre del alumno">
+                        <input title="Ingrese el nombre del alumno" type="text" name="name" id="name"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            v-model="student.name" placeholder="Nombre del alumno">
                     </div>
                     <div class="w-full md:w-1/3 px-4">
                         <label for="lastname" class="block text-gray-700 text-sm font-bold mb-2">Apellido</label>
-                        <input title="Ingrese el apellido del alumno" type="text" name="lastname" id="lastname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="student.lastname" placeholder="Apellido del alumno">
+                        <input title="Ingrese el apellido del alumno" type="text" name="lastname" id="lastname"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            v-model="student.lastname" placeholder="Apellido del alumno">
                     </div>
                     <div class="w-full md:w-1/6 px-4">
-                        <label for="birth" class="block text-gray-700 text-sm font-bold mb-2">Fecha de nacimiento</label>
-                        <input title="Ingrese la fecha de nacimiento del alumno" type="date" name="birth" id="birth" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="student.birth" placeholder="Fecha de nacimiento">
+                        <label for="birth" class="block text-gray-700 text-sm font-bold mb-2">Fecha de
+                            nacimiento</label>
+                        <input title="Ingrese la fecha de nacimiento del alumno" type="date" name="birth" id="birth"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            v-model="student.birth" placeholder="Fecha de nacimiento">
                     </div>
                     <div class="w-full md:w-1/6 px-4">
                         <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Telefono</label>
-                        <input title="Ingrese el telefono del alumno" type="text" name="phone" id="phone" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="student.phone" placeholder="Telefono del alumno">
+                        <input title="Ingrese el telefono del alumno" type="text" name="phone" id="phone"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            v-model="student.phone" placeholder="Telefono del alumno">
                     </div>
                     <div class="w-full md:w-1/5 px-4">
                         <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Correo</label>
-                        <input title="Ingrese el correo del alumno" type="email" name="email" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="student.email" placeholder="Correo del alumno">
+                        <input title="Ingrese el correo del alumno" type="email" name="email" id="email"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            v-model="student.email" placeholder="Correo del alumno">
                     </div>
                     <div class="w-full md:w-1/4 px-4">
                         <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Direccion</label>
-                        <input title="Ingrese la direccion del alumno" type="text" name="address" id="address" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="student.address" placeholder="Direccion del alumno">
+                        <input title="Ingrese la direccion del alumno" type="text" name="address" id="address"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            v-model="student.address" placeholder="Direccion del alumno">
                     </div>
                     <div class="w-full md:w-1/6 px-4">
                         <label for="dui" class="block text-gray-700 text-sm font-bold mb-2">DUI</label>
-                        <input title="Ingrese el DUI del alumno" type="text" name="dui" id="dui" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="student.dui" placeholder="DUI del alumno">
+                        <input title="Ingrese el DUI del alumno" type="text" name="dui" id="dui"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            v-model="student.dui" placeholder="DUI del alumno">
                     </div>
                 </div>
                 <div class="flex items-center justify-end p-4 space-x-4">
-                    <input type="reset" class="hidden" id="reset">
-                    <label for="reset">
-                        <div class="bg-red-400 hover:bg-red-500 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none" viewBox="0 0 24 24" fill="none">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                    </label>
-                    <input type="submit" class="hidden" id="save">
-                    <label class="save">
-                        <div class="bg-green-400 hover:bg-green-500 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none" viewBox="0 0 24 24" fill="none">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                            </svg>
-                        </div>
-                    </label>
+                    <label>
+                        <input type="reset" class="hidden" id="reset">
+                        <label for="reset">
+                            <div
+                                class="bg-red-400 hover:bg-red-500 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2"
+                                    fill="none" viewBox="0 0 24 24" fill="none">
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 13h6m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                        </label>
+                        <label class="save">
+                            <input type="submit" class="hidden" id="save" y>
+
+                            <div
+                                class="bg-green-400 hover:bg-green-500 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2"
+                                    fill="none" viewBox="0 0 24 24" fill="none">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                            </div>
+                        </label>
                 </div>
             </form>
         </div>
 
         <!-- Div for the record table -->
-        <div class="container mx-auto border-2 border-stone-600 rounded-lg w-11/12 h-fit bg-gradient-to-r from-sky-300 via-white to-cyan-200">
+        <div
+            class="container mx-auto border-2 border-stone-600 rounded-lg w-11/12 h-fit bg-gradient-to-r from-sky-300 via-white to-cyan-200">
             <div class="flex justify-between items-center p-4 bg-sky-400 rounded-lg text-white">
                 <h1 class="text-2xl font-bold">Lista de Alumnos</h1>
                 <div class="flex items-center">
-                    <button class="bg-sky-400 hover:bg-sky-300 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full" data-target="table" onclick="showHide(this)">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none" viewBox="0 0 24 24" fill="none">
+                    <button
+                        class="bg-sky-400 hover:bg-sky-300 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full"
+                        data-target="table" onclick="showHide(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none"
+                            viewBox="0 0 24 24" fill="none">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
                         </svg>
                     </button>
                 </div>
             </div>
-                <div class="flex flex-col justify-center items-center p-4 bg-sky-300 rounded-lg text-white">
-                    <table class="table-auto w-full">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2">Nombre</th>
-                                <th class="px-4 py-2">Apellido</th>
-                                <th class="px-4 py-2">Fecha de nacimiento</th>
-                                <th class="px-4 py-2">Telefono</th>
-                                <th class="px-4 py-2">Correo</th>
-                                <th class="px-4 py-2">DUI</th>
-                                <th class="px-4 py-2">Direccion</th>
-                                <th class="px-4 py-2">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="student in students">
-                                <td class="border px-4 py-2">{{ student.name }}</td>
-                                <td class="border px-4 py-2">{{ student.lastname }}</td>
-                                <td class="border px-4 py-2">{{ student.birthdate }}</td>
-                                <td class="border px-4 py-2">{{ student.phone }}</td>
-                                <td class="border px-4 py-2">{{ student.email }}</td>
-                                <td class="border px-4 py-2">{{ student.dui }}</td>
-                                <td class="border px-4 py-2">{{ student.address }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="flex flex-col justify-center items-center p-4 bg-sky-300 rounded-lg text-white">
+                <table class="table-auto w-full">
+                    <thead>
+                        <tr class="text-white bg-sky-400">
+                            <th class="px-4 py-2">Codigo</th>
+                            <th class="px-4 py-2">Nombre</th>
+                            <th class="px-4 py-2">Apellido</th>
+                            <th class="px-4 py-2">Fecha de nacimiento</th>
+                            <th class="px-4 py-2">Telefono</th>
+                            <th class="px-4 py-2">Correo</th>
+                            <th class="px-4 py-2">Direccion</th>
+                            <th class="px-4 py-2">DUI</th>
+                            <th class="px-4 py-2">Acciones</th>
+                        </tr>
+                    </thead>
 
+
+                    <tbody>
+                        <tr v-for="student in students" @click="modificarEstudiante(student)"
+                            :key="student.idEstudiante">
+                            <td class="border px-4 py-2">{{ student.code}}</td>
+                            <td class="border px-4 py-2">{{ student.name }}</td>
+                            <td class="border px-4 py-2">{{ student.lastname }}</td>
+                            <td class="border px-4 py-2">{{ student.birth }}</td>
+                            <td class="border px-4 py-2">{{ student.phone }}</td>
+                            <td class="border px-4 py-2">{{ student.email }}</td>
+                            <td class="border px-4 py-2">{{ student.address }}</td>
+                            <td class="border px-4 py-2">{{ student.dui }}</td>
+                            <td>
+                                <button class="" @click="eliminarEstudiante(student)">Eliminar</button>
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+
+
 
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script>
+        const db_sistema = openDatabase('db_sistema', '1.0', 'Sistema', 5 * 1024 * 1024);
+        if (!db_sistema) {
+            alert('Lo siento, el navagador no soporta BD offline');
+        }
+
         function showHide(el) {
             let target = el.getAttribute('data-target');
-            let element = $('#'+target);
+            let element = $('#' + target);
             // En una animación de 300ms, mostrar o ocultar el elemento
             $(element).slideToggle();
         }
-        let app = new Vue ({
+        let app = new Vue({
             el: '#appAlm',
             data: {
+                students: [],
                 student: {
+                    accion: 'nuevo',
+                    code: '',
                     name: '',
                     lastname: '',
                     birth: '',
                     phone: '',
                     email: '',
                     address: '',
-                    dui: ''
+                    dui: '',
+
                 }
             },
             methods: {
                 clearForm() {
                     this.student.name = ''
+                    this.student.code = ''
                     this.student.lastname = ''
                     this.student.birth = ''
                     this.student.years = ''
@@ -155,15 +211,103 @@
                     this.student.email = ''
                     this.student.address = ''
                     this.student.dui = ''
+                    this.student.accion = 'nuevo'
                 },
                 saveChanges() {
-                    console.log(this.student)
-                }, 
-                resetForm() {
-                    this.clearForm()
-                }
+                    if (this.student.accion == null) {
+                        this.student.accion = 'nuevo'
+                    }
+
+                    let sql = '';
+                    parametros = [];
+
+
+
+                    if (this.student.accion == 'nuevo') {
+                        sql =
+                            'INSERT INTO estudiantes (code, name, lastname, birth, phone, email, address, dui) VALUES (?,?,?,?,?,?,?,?)';
+                        parametros = [this.student.code, this.student.name, this.student.lastname, this.student
+                            .birth, this.student.phone, this.student.email, this.student.address, this
+                            .student.dui
+                        ];
+                    } else if (this.student.accion == 'modificar') {
+                        sql =
+                            'UPDATE estudiantes SET code = ?, name = ?, lastname = ?, birth = ?, phone = ?, email = ?, address = ?, dui = ? WHERE idEstudiante = ?';
+                        parametros = [this.student.code, this.student.name, this.student.lastname, this.student
+                            .birth, this.student.phone, this.student.email, this.student.address, this
+                            .student.dui, this.student.idEstudiante
+                        ];
+                    } else if (this.student.accion == 'eliminar') {
+                        sql = 'DELETE FROM estudiantes WHERE idEstudiante = ?';
+                        parametros = [this.student.idEstudiante];
+                    }
+                    db_sistema.transaction(tx => {
+                        tx.executeSql(sql,
+                            parametros,
+                            (tx, res) => {
+                                this.clearForm();
+                                this.obtenerEstudiantes();
+                                alert('Registro procesado');
+                            },
+                            (tx, err) => {
+                                alert('Error al procesar el cliente', err.message);
+                                console.log(err);
+
+                            });
+                    });
+                },
+                eliminarEstudiante(student) {
+                    if (confirm(`Esta seguro de eliminar el estudiante ${student.name} ${student.lastname}?`)) {
+                        this.student.idEstudiante = student.idEstudiante;
+                        this.student.accion = 'eliminar';
+                        this.saveChanges();
+                    }
+                },
+                modificarEstudiante(student) {
+                    this.student = student;
+                    this.student.accion = 'modificar';
+                },
+
+
+                obtenerEstudiantes() {
+                    db_sistema.transaction(tx => {
+                        tx.executeSql('SELECT * FROM estudiantes', [], (tx, res) => {
+                            this.students = [];
+                            for (let i = 0; i < res.rows.length; i++) {
+                                this.students.push(res.rows.item(i));
+                            }
+                        });
+                    });
+
+
+                    db_sistema.transaction(tx => {
+                        tx.executeSql('SELECT * FROM estudiantes', [], (index, datos) => {
+
+                            this.students = [];
+                            for (let i = 0; i < datos.rows.length; i++) {
+                                this.students.push(datos.rows[i]);
+
+                            }
+                        });
+                    });
+
+
+                },
+            },
+            created() {
+                db_sistema.transaction(tx => {
+                    tx.executeSql(
+                        'CREATE TABLE IF NOT EXISTS estudiantes(idEstudiante INTEGER PRIMARY KEY AUTOINCREMENT, code char(10), name char(100), lastname char(100), birth char(20), phone char(12), email char(100), address char(100), dui char(12))'
+                    );
+                }, err => {
+                    console.log(err);
+                });
+                this.obtenerEstudiantes();
             }
-        });
+
+
+        })
     </script>
 </body>
+
 </html>
