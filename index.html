@@ -8,19 +8,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div id="appAlm">
-        <div class="container mx-auto border-2 border-stone-600 rounded-lg w-11/12 h-fit bg-gradient-to-r from-sky-300 via-white to-cyan-200">
-            <div class="flex justify-between items-center p-4 bg-sky-400 rounded-lg text-white">
+    <div id="appAlm" class="grid grid-cols-1 gap-4 p-4">
+        <div class="container mx-auto border-2 border-stone-600 rounded-t-lg w-11/12 h-fit bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-300">
+            <div class="flex justify-between items-center p-4 bg-transparent rounded-t-lg text-white">
                 <h1 class="text-2xl font-bold">Registro de Alumnos</h1>
                 <div class="flex items-center">
-                    <button class="bg-sky-200 hover:bg-sky-300 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full" @click="showModal = true">
+                    <button class="bg-sky-300 hover:bg-sky-200 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full" data-target="form" onclick="showHide(this)">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none" viewBox="0 0 24 24" fill="none">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
                         </svg>
                     </button>
                 </div>
             </div>
-            <form method="post" @submit.prevent="saveChanges" @reset.prevent="clearForm" class="bg-transparent">
+            <form method="post" @submit.prevent="saveChanges" @reset.prevent="clearForm" class="bg-cyan-100 overflow-hidden h-fit" id="form" style="transition: all .5s;">
                 <div class="flex flex-wrap p-4">
                     <div class="w-full md:w-1/6 px-4">
                         <label for="codigo" class="block text-gray-700 text-sm font-bold mb-2">
@@ -58,16 +58,16 @@
                     </div>
                 </div>
                 <div class="flex items-center justify-end p-4 space-x-4">
-                    <label>
-                        <input type="reset" class="invisible">
-                        <div class="bg-red-500 hover:bg-red-700 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none" viewBox="0 0 24 24">
+                    <input type="reset" class="hidden" id="reset">
+                    <label for="reset">
+                        <div class="bg-red-400 hover:bg-red-500 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none" viewBox="0 0 24 24" fill="none">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
                     </label>
-                    <label>
-                        <input type="submit" class="invisible">
+                    <input type="submit" class="hidden" id="save">
+                    <label class="save">
                         <div class="bg-green-400 hover:bg-green-500 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none" viewBox="0 0 24 24" fill="none">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -77,10 +77,61 @@
                 </div>
             </form>
         </div>
+
+        <!-- Div for the record table -->
+        <div class="container mx-auto border-2 border-stone-600 rounded-lg w-11/12 h-fit bg-gradient-to-r from-sky-300 via-white to-cyan-200">
+            <div class="flex justify-between items-center p-4 bg-sky-400 rounded-lg text-white">
+                <h1 class="text-2xl font-bold">Lista de Alumnos</h1>
+                <div class="flex items-center">
+                    <button class="bg-sky-400 hover:bg-sky-300 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full" data-target="table" onclick="showHide(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2" fill="none" viewBox="0 0 24 24" fill="none">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+                <div class="flex flex-col justify-center items-center p-4 bg-sky-300 rounded-lg text-white">
+                    <table class="table-auto w-full">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Nombre</th>
+                                <th class="px-4 py-2">Apellido</th>
+                                <th class="px-4 py-2">Fecha de nacimiento</th>
+                                <th class="px-4 py-2">Telefono</th>
+                                <th class="px-4 py-2">Correo</th>
+                                <th class="px-4 py-2">DUI</th>
+                                <th class="px-4 py-2">Direccion</th>
+                                <th class="px-4 py-2">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="student in students">
+                                <td class="border px-4 py-2">{{ student.name }}</td>
+                                <td class="border px-4 py-2">{{ student.lastname }}</td>
+                                <td class="border px-4 py-2">{{ student.birthdate }}</td>
+                                <td class="border px-4 py-2">{{ student.phone }}</td>
+                                <td class="border px-4 py-2">{{ student.email }}</td>
+                                <td class="border px-4 py-2">{{ student.dui }}</td>
+                                <td class="border px-4 py-2">{{ student.address }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script>
+        function showHide(el) {
+            let target = el.getAttribute('data-target');
+            let element = $('#'+target);
+            // En una animación de 300ms, mostrar o ocultar el elemento
+            $(element).slideToggle();
+        }
         let app = new Vue ({
             el: '#appAlm',
             data: {
@@ -107,6 +158,9 @@
                 },
                 saveChanges() {
                     console.log(this.student)
+                }, 
+                resetForm() {
+                    this.clearForm()
                 }
             }
         });
