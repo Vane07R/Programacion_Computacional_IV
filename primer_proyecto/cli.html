@@ -135,10 +135,16 @@
                 }
             },
             methods: {
-                getCli: function() {
+                getCli: function(val = '') {
                     this.clients = [];
                     for (let i = 0; i < localStorage.length; i++) {
                         let key = localStorage.key(i);
+                        if (val.trim().length > 0) {
+                            let cliente = JSON.parse(localStorage.getItem(key));
+                            if (cliente.name.toLowerCase().indexOf(val.toLowerCase()) > -1) {
+                                this.clients.push(cliente);
+                            }
+                        }
                         this.clients.push(JSON.parse(localStorage.getItem(key)));
                     }
                 },
@@ -177,6 +183,7 @@
                     this.newCli();
                 },
                 searchCli(){
+                    this.getCli( this.search );
                     this.clients.filter(cli => {
                         if (cli.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
                             return cli;
