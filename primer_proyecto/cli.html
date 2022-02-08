@@ -17,37 +17,37 @@
             <div class="card-body text-success">
                 <form method="post" @submit.prevent="saveCli" @reset.prevent="newCli">
                     <div class="container-fluid">
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-2">Código:</div>
                             <div class="col col-md-2">
                                 <input title="Ingrese el código" v-model="cli.code" type="text" class="form-control" required pattern="[0-9]{3,10}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-2">Nombre:</div>
                             <div class="col col-md-3">
                                 <input title="Ingrese el nombre" v-model="cli.name" type="text" class="form-control" required pattern="[A-Za-zÑÁÉÍÓÚÜñáéíóúü ]{3,75}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-2">Dirección:</div>
                             <div class="col col-md-3">
                                 <input title="Ingrese la dirección" v-model="cli.address" type="text" class="form-control" required pattern="[A-Za-zÑÁÉÍÓÚÜñáéíóúü0-9 ]{3,100}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-2">Teléfono:</div>
                             <div class="col col-md-2">
                                 <input title="Ingrese el teléfono" v-model="cli.phone" type="text" class="form-control" required pattern="[0-9]{4}[-| ]{1}[0-9]{4}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-2">DUI</div>
                             <div class="col col-md-2">
                                 <input title="Ingrese el DUI" v-model="cli.dui" type="text" class="form-control" required pattern="[0-9]{8}-[0-9]{1}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-5 text-center">
                                 <div v-if="cli.show_msg" class="alert alert-primary alert-dismissible fade show" role="alert">
                                     {{ cli.msg }}
@@ -71,7 +71,7 @@
                 <button type="button" class="btn-close" data-bs-target="#cliSearch" class="btn-close"></button>
             </div>
             <div class="card-body text-success">
-                <div-col class="col col-md-6">
+                <div class="col col-md-6">
                     <table class="table table-dark table-hover">
                         <thead>
                             <tr>
@@ -96,7 +96,7 @@
                                 <td>{{ cli.phone }}</td>
                                 <td>{{ cli.dui }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-danger" @click="deleteCli(cli)">
+                                    <button type="button" class="btn btn-danger" @click="delCli(cli)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                         </svg>
@@ -104,20 +104,19 @@
                                 </td>
                             </tr>
                     </table>
-                </div-col>
+                </div>
             </div>
         </div>
-
-
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script>
-        const db_sistem = openDatabase('db_sistem', '1.0', 'Sistema de prueba', 5 * 1024 * 1024);
-        if (!db_sistem) {
-            alert('El navegador no soporta una base de datos local');
-        }
+        let genDateId = () => {
+            let date = new Date();
+            return Math.floor(date.getTime() / 1000).toString(16);
+        };
+
         let app = new Vue ({
             el: '#appCli',
             data: {
@@ -125,8 +124,9 @@
                 clients: [],
                 cli: {
                     show_msg: false,
-                    action: 'new',
+                    action: 0,
                     msg: '',
+                    idCli: '',
                     code: '',
                     name: '',
                     address: '',
@@ -136,72 +136,48 @@
             },
             methods: {
                 getCli: function() {
-                    db_sistem.transaction(tx => {
-                        tx.executeSql('SELECT * FROM clientes ORDER BY code', [], (tx, result) => {
-                            this.clients = [];
-                            for (let i = 0; i < result.rows.length; i++) {
-                                this.clients.push(result.rows[i]);
-                            }
-                        });
-                    });
+                    this.clients = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        let key = localStorage.key(i);
+                        this.clients.push(JSON.parse(localStorage.getItem(key)));
+                    }
                 },
                 saveCli(){
-                    let sql = '',
-                        values = [],
-                        msg = '';
-                    console.log(this.cli.action);
-                    if (this.cli.action == "new") {
-                        sql = 'INSERT INTO clientes (code, name, address, phone, dui) VALUES (?, ?, ?, ?, ?)';
-                        values = [this.cli.code, this.cli.name, this.cli.address, this.cli.phone, this.cli.dui];
-                        msg = 'Cliente registrado';
-                    } else if (this.cli.action == "edit") {
-                        sql = 'UPDATE clientes SET code = ?, name = ?, address = ?, phone = ?, dui = ? WHERE idCli = ?';
-                        values = [this.cli.code, this.cli.name, this.cli.address, this.cli.phone, this.cli.dui, this.cli.idCli];
-                        msg = 'Cliente actualizado';
-                    } else if (this.cli.action == "delete") {
-                        sql = 'DELETE FROM clientes WHERE idCli = ?';
-                        values = [this.cli.idCli];
-                        msg = 'Cliente eliminado';
+                    let action = ['registrado', 'actualizado', 'eliminado'];
+                    if (this.cli.action == 0) {
+                        this.cli.idCli = genDateId();
                     }
-
-                    db_sistem.transaction(tx => {
-                        tx.executeSql(sql, values,
-                        (tx, res) => {
-                            this.newCli();
-                            this.getCli();
-                            this.cli.msg = msg;
-                            this.cli.show_msg = true;
-                        }, (tx, err) => {
-                            console.log(err);
-                            this.cli.msg = 'Error al realizar los cambios';
-                            this.cli.show_msg = true;
-                        });
-                    });
+                    localStorage.setItem(this.cli.idCli, JSON.stringify(this.cli));
+                    this.newCli();
+                    this.getCli();
+                    this.cli.show_msg = true;
+                    this.cli.msg = `Se ${action[this.cli.action]} correctamente`;
                 },
                 showCli(cli) {
                     console.log(cli.idCli);
                     this.cli = cli;
-                    this.cli.action = 'edit';
+                    this.cli.action = 1;
                 },
                 newCli() {
-                    this.cli.action = 'new';
+                    this.cli.action = 0;
                     this.cli.msg = '';
+                    this.cli.idCli = '';
                     this.cli.code = '';
                     this.cli.name = '';
                     this.cli.address = '';
                     this.cli.phone = '';
                     this.cli.dui = '';
                 },
-                deleteCli(cli) {
+                delCli(cli) {
                     if (confirm(`¿Está seguro de eliminar el cliente ${cli.name}?`)) {
-                        this.cli = cli;
-                        this.cli.action = 'delete';
+                        this.cli.action = 3;
+                        localStorage.removeItem(cli.idCli);
                         this.saveCli();
                     }
+                    this.newCli();
                 },
                 searchCli(){
                     this.clients.filter(cli => {
-                        // Filter by name
                         if (cli.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
                             return cli;
                         }
@@ -210,11 +186,7 @@
                 }
             },
             created(){
-                db_sistem.transaction(tx => {
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS clientes (idCli INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT, name TEXT, address TEXT, phone TEXT, dui TEXT)');
-                }, err => {
-                    console.log(err);
-                });
+                
                 this.getCli();
             }
         })
