@@ -17,37 +17,37 @@
             <div class="card-body text-success">
                 <form method="post" @submit.prevent="saveCli" @reset.prevent="newCli">
                     <div class="container-fluid">
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-2">Código:</div>
                             <div class="col col-md-2">
                                 <input title="Ingrese el código" v-model="cli.code" type="text" class="form-control" required pattern="[0-9]{3,10}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-2">Nombre:</div>
                             <div class="col col-md-3">
                                 <input title="Ingrese el nombre" v-model="cli.name" type="text" class="form-control" required pattern="[A-Za-zÑÁÉÍÓÚÜñáéíóúü ]{3,75}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-2">Dirección:</div>
                             <div class="col col-md-3">
                                 <input title="Ingrese la dirección" v-model="cli.address" type="text" class="form-control" required pattern="[A-Za-zÑÁÉÍÓÚÜñáéíóúü0-9 ]{3,100}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-2">Teléfono:</div>
                             <div class="col col-md-2">
                                 <input title="Ingrese el teléfono" v-model="cli.phone" type="text" class="form-control" required pattern="[0-9]{4}[-| ]{1}[0-9]{4}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-2">DUI</div>
                             <div class="col col-md-2">
                                 <input title="Ingrese el DUI" v-model="cli.dui" type="text" class="form-control" required pattern="[0-9]{8}-[0-9]{1}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col col-md-5 text-center">
                                 <div v-if="cli.show_msg" class="alert alert-primary alert-dismissible fade show" role="alert">
                                     {{ cli.msg }}
@@ -135,9 +135,17 @@
                 }
             },
             methods: {
-                getCli: function() {
+                getCli() {
+                    // db_sistem.transaction(tx => {
+                    //     tx.executeSql('SELECT * FROM clientes ORDER BY code', [], (tx, result) => {
+                    //         this.clients = [];
+                    //         for (let i = 0; i < result.rows.length; i++) {
+                    //             this.clients.push(result.rows[i]);
+                    //         }
+                    //     });
+                    // });
                     db_sistem.transaction(tx => {
-                        tx.executeSql('SELECT * FROM clientes ORDER BY code', [], (tx, result) => {
+                        tx.executeSql('SELECT * FROM clientes WHERE name LIKE ? ORDER BY code', ['%' + this.search + '%'], (tx, result) => {
                             this.clients = [];
                             for (let i = 0; i < result.rows.length; i++) {
                                 this.clients.push(result.rows[i]);
@@ -180,7 +188,7 @@
                 },
                 showCli(cli) {
                     console.log(cli.idCli);
-                    this.cli = cli;
+                    this.cli = JSON.parse(JSON.stringify(cli));
                     this.cli.action = 'edit';
                 },
                 newCli() {
@@ -199,14 +207,27 @@
                         this.saveCli();
                     }
                 },
-                searchCli(){
-                    this.clients.filter(cli => {
-                        // Filter by name
-                        if (cli.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
-                            return cli;
-                        }
-                    });
-                    console.log(this.clients, this.cli.search);
+                async searchCli(){
+                    // await function(){
+                    //     db_sistem.transaction(tx => {
+                    //         tx.executeSql('SELECT * FROM clientes WHERE name LIKE ? ORDER BY code', ['%' + this.search + '%'], (tx, result) => {
+                    //             this.clients = [];
+                    //             for (let i = 0; i < result.rows.length; i++) {
+                    //                 this.clients.push(result.rows[i]);
+                    //             }
+                    //         });
+                    //     });
+                    // }.bind(this)();
+                    await function() {
+                        this.getCli();
+                    }.bind(this)();
+                    // await function() {
+                    //     if (this.search.trim().length > 0) {
+                    //         this.clients = this.clients.filter(cli => cli.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
+                    //     } else {
+                    //         this.clients = this.getCli();
+                    //     }
+                    // }.bind(this)();
                 }
             },
             created(){
