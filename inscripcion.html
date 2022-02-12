@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incribir Materias</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-stripe-white {
+            --stripes-color: hsla(0,0%,100%,0.4);
+        }
+        .bg-stripe {
+            background-image: linear-gradient(135deg,var(--stripes-color) 10%,transparent 12.5%,transparent 50%,var(--stripes-color) 50%,var(--stripes-color) 62.5%,transparent 62.5%,transparent 100%);
+            background-size: 7.07px 7.07px;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-200">
+    <div id="appAlm" class="grid grid-cols-1 gap-4 p-4">
+        <div class="container mx-auto border-2 border-stone-600 rounded-t-lg bg-neutral-800 w-11/12 h-fit">
+            <div class="flex justify-between items-center p-4 bg-neutral-800 rounded-t-lg text-white">
+                <h1 class="text-2xl font-bold">Inscribir Materias</h1>
+                <div class="flex items-center">
+                    <button data-target="form" onclick="showHide(this)" class="w-14 h-14 bg-neutral-800 hover:bg-neutral-700 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white stroke-2 fill-transparent">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <form method="post" @submit.prevent="saveChanges" @reset.prevent="clearForm" id="form" class="bg-neutral-300 overflow-hidden h-fit">
+                <div class="flex flex-wrap p-4">
+                    <div class="w-full md:w-1/1 mb-1 px-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-full w-8 rounded-l-lg bg-transparent shadow-inner shadow-neutral-600 00 fill-gray-100 stroke-1 stroke-current">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <select v-model="inscribir.alumn" required title="Seleccione al alumno" class="shadow border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccione al alumno</option>
+                            <option v-for="alumno in alumnos" :value="alumno.idEstudiante">{{ alumno.lastname }} {{ alumno.name }} - {{ alumno.code }}</option>
+                        </select>
+                    </div>
+                    <div class="w-full md:w-1/2 mb-1 px-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-full w-8 rounded-l-lg bg-transparent shadow-inner shadow-neutral-600 00 fill-gray-100 stroke-1 stroke-current">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <select v-model="inscribir.materias" required multiple title="Seleccione las materias" class="shadow border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="">Seleccione las materias</option>
+                            <option v-for="materia in materias" :value="materia.idMateria">{{ materia.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end p-4 space-x-4">
+                    <input type="reset" id="reset" class="hidden">
+                    <label for="reset">
+                        <div class="bg-red-400 hover:bg-red-500 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 stroke-white stroke-2 fill-transparent">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                    </label>
+                    <input type="submit" class="hidden" id="save">
+                    <label for="save">
+                        <div class="bg-green-500 hover:bg-green-600 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 stroke-white stroke-2 fill-transparent">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </div>
+                    </label>
+                </div>
+            </form>
+        </div>
+        <div class="container mx-auto border-2 border-stone-600 rounded-t-lg w-11/12 h-fit bg-neutral-800">
+            <div class="flex justify-between items-center p-4 bg-neutral-800 rounded-lg text-white">
+                <h1 class="text-2xl font-bold">Lista de Inscripciones</h1>
+                <div class="flex items-center">
+                    <button data-target="table" onclick="showHide(this)" class="w-14 h-14 bg-neutral-800 hover:bg-neutral-700 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 stroke-white stroke-2 fill-transparent">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="table" class="bg-neutral-300 flex flex-col justify-center items-center p-4 text-white shadow-inner">
+                <table class="table-auto w-full">
+                    <thead class="bg-black bg-stripe bg-stripe-white">
+                        <tr>
+                            <th colspan="9" class="px-4 py-2 rounded-tl-lg bg-gray-200/25 duration-500">
+                                <div class="flex justify-between items-center">
+                                    <svg @click="buscandoInscrito" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-full w-8 rounded-l-lg bg-gray-200/50 hover:bg-gray-200/75 duration-500 shadow-inner shadow-neutral-600 00 fill-gray-100/25 stroke-2 stroke-black">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                    <input @keyup="buscandoInscrito" v-model="word" type="text" placeholder="Buscar" class="w-full h-full px-4 py-2 bg-gray-100 border-2 border-transparent rounded-lg text-gray-700">
+                                </div>
+                            </th>
+                        </tr>
+                        <tr class="text-white">
+                            <th class="bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2">Alumno</th>
+                            <th class="bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2">Materia</th>
+                            <th class="bg-gray-200/25 hover:bg-gray-200/50 duration-500 px-4 py-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="inscrpcion in inscripciones" @click="modificarInscripcion(inscrpcion)" :key="inscrpcion.idinscrpcion" class="text-black hover:bg-gray-400 duration-500">
+                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 px-4 py-2">{{ inscrpcion.alumno }}</td>
+                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ inscrpcion.clase }}</td>
+                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2 items-center">
+                                <button @click="eliminarInscrito(inscrpcion)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="h-8 w-8 duration-500 fill-red-500 stroke-0">
+                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        const db_sistema = openDatabase('db_sistema', '1.0', 'Sistema', 5 * 1024 * 1024);
+        if (!db_sistema) {
+            alert('Lo siento, el navagador no soporta BD offline');
+        }
+        function showHide(el) {
+            let target = el.getAttribute('data-target');
+            let element = $('#' + target);
+            $(element).slideToggle();
+            el.classList.toggle('rotate-180');
+        }
+        let app = new Vue({
+            el: '#appAlm',
+            data: {
+                word: '',
+                alumnos: [],
+                inscripciones: [],
+                materias: [],
+                inscribir: {
+                    alumno: '',
+                    materias: []
+                },
+            },
+            methods: {
+                buscandoAlumno() {
+                    this.obtenerEstudiantes(this.word);
+                },
+                clearForm() {
+                    this.student.name = ''
+                    this.student.code = ''
+                    this.student.lastname = ''
+                    this.student.birth = ''
+                    this.student.years = ''
+                    this.student.phone = ''
+                    this.student.email = ''
+                    this.student.address = ''
+                    this.student.dui = ''
+                    this.student.accion = 'nuevo'
+                },
+                saveChanges() {
+                    let sql = '';
+                    parametros = [];
+
+                    if (this.student.accion == 'nuevo') {
+                        sql = 'INSERT INTO estudiantes (code, name, lastname, birth, phone, email, address, dui) VALUES (?,?,?,?,?,?,?,?)';
+                        parametros = [this.student.code, this.student.name, this.student.lastname, this.student.birth, this.student.phone, this.student.email, this.student.address, this.student.dui];
+                    } else if (this.student.accion == 'modificar') {
+                        sql = 'UPDATE estudiantes SET code = ?, name = ?, lastname = ?, birth = ?, phone = ?, email = ?, address = ?, dui = ? WHERE idEstudiante = ?';
+                        parametros = [this.student.code, this.student.name, this.student.lastname, this.student.birth, this.student.phone, this.student.email, this.student.address, this.student.dui, this.student.idEstudiante];
+                    } else if (this.student.accion == 'eliminar') {
+                        sql = 'DELETE FROM estudiantes WHERE idEstudiante = ?';
+                        parametros = [this.student.idEstudiante];
+                    }
+                    db_sistema.transaction(tx => {
+                        tx.executeSql(sql, parametros, (tx, res) => {
+                                this.clearForm();
+                                this.obtenerEstudiantes('');
+                                alert('Registro procesado');
+                            },
+                            (tx, err) => {
+                                alert('Error al procesar el cliente', err.message);
+                                console.log(err);
+                            });
+                    });
+                },
+                eliminarEstudiante(student) {
+                    if (confirm(`Esta seguro de eliminar el estudiante ${student.name} ${student.lastname}?`)) {
+                        this.student.idEstudiante = student.idEstudiante;
+                        this.student.accion = 'eliminar';
+                        this.saveChanges();
+                    }
+                },
+                modificarEstudiante(student) {
+                    this.student = JSON.parse(JSON.stringify(student));
+                    this.student.accion = 'modificar';
+                },
+                obtenerEstudiantes(word) {
+                    let respuesta = db_sistema.transaction(tx => {
+                        tx.executeSql(`SELECT * FROM estudiantes WHERE code LIKE "%${word}%" OR name LIKE "%${word}%" OR lastname LIKE "%${word}%" OR birth LIKE "%${word}%" OR phone LIKE "%${word}%" OR email LIKE "%${word}%" OR address LIKE "%${word}%" OR dui LIKE "%${word}%"`, [], (tx, res) => {
+                            this.students = [];
+                            for (let i = 0; i < res.rows.length; i++) {
+                                this.students.push(res.rows.item(i));
+                            }
+                        });
+                    });
+
+                },
+            },
+            created() {
+                // Obtener alumnos y materias
+                this.obtenerEstudiantes('');
+            }
+        })
+    </script>
+</body>
+</html>
