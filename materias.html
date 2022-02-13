@@ -30,7 +30,7 @@
                     </button>
                 </div>
             </div>
-            <form method="post" @submit.prevent="saveChanges" @reset.prevent="clearForm" id="form" class="bg-neutral-300 overflow-hidden h-fit">
+            <form method="post" @submit.prevent="GuardarMaterias" @reset.prevent="clearForm" id="form" class="bg-neutral-300 overflow-hidden h-fit">
                 <div class="flex flex-wrap p-4">
                     <div class="w-full md:w-1/2 mb-1 px-4 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="h-full w-8 rounded-l-lg bg-transparent shadow-inner shadow-neutral-600 00 fill-gray-100 stroke-1 stroke-current">
@@ -50,14 +50,14 @@
                             <text x="24" y="15" font-family="Verdana" font-size="10">De</text>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <input v-model="materia.hourFrom" type="time" required title="Ingrese la hora de inicio de la materia" class="shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <input v-model="materia.At" type="time" required title="Ingrese la hora de inicio de la materia" class="shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="w-full md:w-1/4 mb-1 px-4 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 24" class="h-full w-12 rounded-l-lg bg-transparent shadow-inner shadow-neutral-600 00 fill-gray-100 stroke-1 stroke-current">
                             <text x="24" y="15" font-family="Verdana" font-size="10">A</text>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <input v-model="materia.hourTo" type="time" required title="Ingrese la hora de fin de la materia" class="shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <input v-model="materia.till" type="time" required title="Ingrese la hora de fin de la materia" class="shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="w-full md:w-1/2 mb-1 px-4 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-full w-8 rounded-l-lg bg-transparent shadow-inner shadow-neutral-600 00 fill-gray-100 stroke-2 stroke-current">
@@ -135,8 +135,8 @@
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 px-4 py-2">{{ materia.name}}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.teacher }}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.day }}</td>
-                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.from }}</td>
-                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.to }}</td>
+                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.At }}</td>
+                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.till }}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.room }}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2 items-center">
                                 <button @click="eliminarMateria(materia)">
@@ -168,76 +168,74 @@
             el: '#appAlm',
             data: {
                 word: '',
-                students: [],
+                materias: [],
                 days: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'],
                 materia: {
+                    accion: "nuevo",
                     name: '',
                     teacher: '',
                     day: '',
-                    feom: '',
-                    to: '',
+                    At: '',
+                    till: '',
                     room: '',
                 },
             },
             methods: {
-                buscandoAlumno() {
-                    this.obtenerEstudiantes(this.word);
+                buscandoMateria() {
+                    this.obtenerMaterias(this.word);
                 },
                 clearForm() {
-                    this.student.name = ''
-                    this.student.code = ''
-                    this.student.lastname = ''
-                    this.student.birth = ''
-                    this.student.years = ''
-                    this.student.phone = ''
-                    this.student.email = ''
-                    this.student.address = ''
-                    this.student.dui = ''
-                    this.student.accion = 'nuevo'
+                    this.materia.name = '';
+                    this.materia.teacher = '';
+                    this.materia.day = '';
+                    this.materia.At = '';
+                    this.materia.till= '';
+                    this.materia.room = '';
+                    this.materia.accion = 'nuevo';
                 },
-                saveChanges() {
+                GuardarMaterias() {
                     let sql = '';
                     parametros = [];
 
-                    if (this.student.accion == 'nuevo') {
-                        sql = 'INSERT INTO estudiantes (code, name, lastname, birth, phone, email, address, dui) VALUES (?,?,?,?,?,?,?,?)';
-                        parametros = [this.student.code, this.student.name, this.student.lastname, this.student.birth, this.student.phone, this.student.email, this.student.address, this.student.dui];
-                    } else if (this.student.accion == 'modificar') {
-                        sql = 'UPDATE estudiantes SET code = ?, name = ?, lastname = ?, birth = ?, phone = ?, email = ?, address = ?, dui = ? WHERE idEstudiante = ?';
-                        parametros = [this.student.code, this.student.name, this.student.lastname, this.student.birth, this.student.phone, this.student.email, this.student.address, this.student.dui, this.student.idEstudiante];
-                    } else if (this.student.accion == 'eliminar') {
-                        sql = 'DELETE FROM estudiantes WHERE idEstudiante = ?';
-                        parametros = [this.student.idEstudiante];
+                    if (this.materia.accion == 'nuevo') {
+                        sql = 'INSERT INTO materias (name, teacher, day, At, till, room) VALUES (?,?,?,?,?,?)';
+                        parametros = [this.materia.name, this.materia.teacher, this.materia.day, this.materia.At.toString(), this.materia.till.toString(), this.materia.room];
+                    } else if (this.materia.accion == 'modificar') {
+                        sql = 'UPDATE materias SET name = ?, teacher = ?, day = ?, At = ?, till = ?, room = ? WHERE idMateria = ?';
+                        parametros = [this.materia.name, this.materia.teacher, this.materia.day, this.materia.At.toString(), this.materia.till.toString(), this.materia.room, this.materia.idMateria];
+                    } else if (this.materia.accion == 'eliminar') {
+                        sql = 'DELETE FROM materias WHERE idMateria = ?';
+                        parametros = [this.materia.idMateria];
                     }
                     db_sistema.transaction(tx => {
                         tx.executeSql(sql, parametros, (tx, res) => {
                                 this.clearForm();
-                                this.obtenerEstudiantes('');
+                                this.obtenerMaterias('');
                                 alert('Registro procesado');
                             },
                             (tx, err) => {
-                                alert('Error al procesar el cliente', err.message);
+                                alert('Error al procesar materias', err.message);
                                 console.log(err);
                             });
                     });
                 },
-                eliminarEstudiante(student) {
-                    if (confirm(`Esta seguro de eliminar el estudiante ${student.name} ${student.lastname}?`)) {
-                        this.student.idEstudiante = student.idEstudiante;
-                        this.student.accion = 'eliminar';
-                        this.saveChanges();
+                eliminarMateria(materia) {
+                    if (confirm(`Esta seguro de eliminar la materia ${materia.name}?`)) {
+                        this.materia.idMateria = materia.idMateria;
+                        this.materia.accion = 'eliminar';
+                        this.GuardarMaterias();
                     }
                 },
-                modificarEstudiante(student) {
-                    this.student = JSON.parse(JSON.stringify(student));
-                    this.student.accion = 'modificar';
+                modificarMateria(materia) {
+                    this.materia = JSON.parse(JSON.stringify(materia));
+                    this.materia.accion = 'modificar';
                 },
-                obtenerEstudiantes(word) {
+                obtenerMaterias(word) {
                     let respuesta = db_sistema.transaction(tx => {
-                        tx.executeSql(`SELECT * FROM estudiantes WHERE code LIKE "%${word}%" OR name LIKE "%${word}%" OR lastname LIKE "%${word}%" OR birth LIKE "%${word}%" OR phone LIKE "%${word}%" OR email LIKE "%${word}%" OR address LIKE "%${word}%" OR dui LIKE "%${word}%"`, [], (tx, res) => {
-                            this.students = [];
+                        tx.executeSql(`SELECT * FROM materias WHERE name LIKE "%${word}%" OR teacher LIKE "%${word}%" OR day LIKE "%${word}%" OR At LIKE "%${word}%" OR till LIKE "%${word}%" OR room LIKE "%${word}%"`, [], (tx, res) => {
+                            this.materias = [];
                             for (let i = 0; i < res.rows.length; i++) {
-                                this.students.push(res.rows.item(i));
+                                this.materias.push(res.rows.item(i));
                             }
                         });
                     });
@@ -247,12 +245,12 @@
             created() {
                 db_sistema.transaction(tx => {
                     tx.executeSql(
-                        'CREATE TABLE IF NOT EXISTS estudiantes(idEstudiante INTEGER PRIMARY KEY AUTOINCREMENT, code char(10), name char(100), lastname char(100), birth char(20), phone char(10), email char(100), address char(100), dui char(12))'
+                        'CREATE TABLE IF NOT EXISTS Materias(idMateria INTEGER PRIMARY KEY AUTOINCREMENT, name char(100), teacher char(100), day char(20), At char(10), till char(100), room char(100))'
                     );
                 }, err => {
                     console.log(err);
                 });
-                this.obtenerEstudiantes('');
+                this.obtenerMaterias('');
             }
         })
     </script>
