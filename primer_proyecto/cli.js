@@ -17,29 +17,42 @@ Vue.component('componente-cliente', {
         }
     },
     methods: {
-        getCli(val = '') {
+        getCli() {
             this.clients = [];
-            for (let i = 0; i < localStorage.length; i++) {
-                let key = localStorage.key(i);
-                if (val.trim().length > 0) {
-                    let cliente = JSON.parse(localStorage.getItem(key));
-                    if (cliente.name.toLowerCase().indexOf(val.toLowerCase()) > -1) {
-                        this.clients.push(cliente);
+            if (localStorage.getItem('clients') != null) {
+                for (let i = 0; i < JSON.parse(localStorage.getItem('clients')).length; i++) {
+                    let data = JSON.parse(localStorage.getItem('clients'))[i];
+                    if (this.search.length > 0) {
+                        if (data.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
+                            this.clients.push(data);
+                        }
+                    } else {
+                        this.clients.push(data);
                     }
                 }
-                this.clients.push(JSON.parse(localStorage.getItem(key)));
             }
         },
         saveCli(){
+            this.getCli();
+            let cli = this.clients || [];
             let action = ['registrado', 'actualizado', 'eliminado'];
             if (this.cli.action == 0) {
                 this.cli.idCli = genDateId();
+                cli.push(this.cli);
+            } else if (this.cli.action == 1) {
+                let index = cli.findIndex(cli => cli.idCli == this.cli.idCli);
+                cli[index] = this.cli;
+            } else if (this.cli.action == 2) {
+                let index = cli.findIndex(cli => cli.idCli == this.cli.idCli);
+                cli.splice(index, 1);
             }
-            localStorage.setItem(this.cli.idCli, JSON.stringify(this.cli));
+            localStorage.setItem('clients', JSON.stringify(cli));
+            this.cli.show_msg = true;
+            console.log(this.cli.action, `Se a ${action[this.cli.action]} correctamente el cliente`);
+            this.cli.msg = `Se a ${action[this.cli.action]} correctamente el cliente`;
             this.newCli();
             this.getCli();
-            this.cli.show_msg = true;
-            this.cli.msg = `Se ${action[this.cli.action]} correctamente`;
+            console.log(this.cli.show_msg);
         },
         showCli(cli) {
             this.cli = JSON.parse(JSON.stringify(cli));
@@ -57,7 +70,7 @@ Vue.component('componente-cliente', {
         },
         delCli(cli) {
             if (confirm(`¿Está seguro de eliminar el cliente ${cli.name}?`)) {
-                this.cli.action = 3;
+                this.cli.action = 2;
                 localStorage.removeItem(cli.idCli);
                 this.saveCli();
             }
@@ -73,8 +86,8 @@ Vue.component('componente-cliente', {
             console.log(this.clients, this.cli.search);
         }
     },
-    createe(){
-        this.getCli('');
+    created(){
+        this.getCli();
     },
     template: `
     <div id="appCli">
