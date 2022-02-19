@@ -89,7 +89,7 @@ Vue.component('students', {
     },
     template: `
     <div class="grid grid-cols-1 gap-4 p-4 shadow-lg rounded-lg">
-        <button class="bg-red-500 text-white w-fit p-2 rounded-lg justify-self-end" @click="close('students')">
+        <button class="bg-red-500 text-white w-fit p-2 rounded-lg justify-self-center" @click="close('students')">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
             </svg>
