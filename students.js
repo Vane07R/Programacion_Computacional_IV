@@ -79,13 +79,21 @@ Vue.component('students', {
         },
         searchStudent() {
             this.getStudents();
+        },
+        close(target) {
+            close(target);
         }
     },
     created() {
         this.getStudents();
     },
     template: `
-    <div class="grid grid-cols-1 gap-4 p-4">
+    <div class="grid grid-cols-1 gap-4 p-4 shadow-lg rounded-lg">
+        <button class="bg-red-500 text-white w-fit p-2 rounded-lg justify-self-end" @click="close('students')">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+            </svg>
+        </button>
         <div class="container mx-auto border-2 border-stone-600 rounded-t-lg bg-neutral-800 w-11/12 h-fit">
             <div class="flex justify-between items-center p-4 bg-neutral-800 rounded-t-lg text-white overflow-hidden">
                 <h1 class="text-2xl font-bold">Registro de Alumnos</h1>

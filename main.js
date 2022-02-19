@@ -9,6 +9,10 @@ function showHide(el) {
     el.classList.toggle('rotate-180');
 }
 
+function close(target) {
+    app.forms[target].show = false;
+}
+
 console.log(getUniqueId('id'));
 
 let app = new Vue({
