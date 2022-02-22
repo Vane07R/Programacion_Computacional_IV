@@ -8,8 +8,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    
-    
+    <div class="flex justify-center">
+        <nav class="flex justify-center">
+            <a href="#" data-form="cli" class="show px-4 py-2 mr-2 text-blue-500 font-semibold">Clientes</a>
+            <a href="#" data-form="lect" class="show px-4 py-2 mr-2 text-blue-500 font-semibold">Lecturas</a>
+        </nav>
+    </div>
+
+    <div id="app" class="grid grid-cols-1 gap-4">
+        <cli ref="cli" v-show="forms['cli'].show"></cli>
+        <lect ref="lect" v-show="forms['lect'].show"></lect>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="cli.js"></script>
+    <script src="lect.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
