@@ -3,103 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=">
-    <title>Primer Proyecto ViewJS</title>
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primer Examen Parcial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <h2>HTML</h2>
-    <h4>Hola Mundo</h4>
-    <div id="app">
-        <h2>VueJS</h2>
-        <h4>{{mensaje}}</h2>
-
-        <h2>Saludo con ViewJS</h2>
-        <label for="txtNombre">Nombre</label>
-        <input type="text" id="txtNombre" v-model="nombre">
-        <h4>Hola {{nombre}}</h4>
-
-        <h2>Operaciones Básicas con ViewJS</h2>
-        <div class="container">
-            <div class="row">
-                <div class="col col-12 col-sm-4 col-md-2 col-lg-1">
-                    <label for="txtNum1">Numero 1</label>
-                </div>
-                <div class="col col-12 col-sm-8 col-md-3 col-lg-2">
-                    <input type="text" id="txtNum1" v-model="num1" class="form-control-sm">
-                </div>
-                <div class="col col-12 col-sm-12 col-md-2 col-lg-1">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                          {{operacion}}
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-                            <li @click="operar('+')" class="dropdown-item text-white text-center">+</li>
-                            <li @click="operar('-')" class="dropdown-item text-white text-center">-</li>
-                            <li @click="operar('*')" class="dropdown-item text-white text-center">*</li>
-                            <li @click="operar('/')" class="dropdown-item text-white text-center">/</li>
-                        </ul>
-                      </div>
-                </div>
-                <div class="col col-12 col-sm-4 col-md-2 col-lg-1">
-                    <label for="txtNum2">Numero 2</label>
-                </div>
-                <div class="col col-12 col-sm-8 col-md-3 col-lg-2">
-                    <input type="text" id="txtNum2" v-model="num2" class="form-control-sm">
-                </div>
-            </div>
-        </div>
-
-        <h4>El resultado de la operación es: 
-            <span class="badge bg-secondary">{{num1}}</span> 
-            <span class="badge bg-secondary">{{operacion}}</span> 
-            <span class="badge bg-secondary">{{num2}}</span> = 
-            <span class="badge bg-secondary rounded-pill">{{resultado}}</span>
-        </h4>
-    </div>
-
-    <!-- Bootstrap Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <!-- ViewJS -->
+    
+    
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <script src="script.js"></script>
-    <script>
-        const app = new Vue({
-            el: '#app',
-            data: {
-                mensaje: 'Hola Mundo',
-                nombre: '',
-                num1: '',
-                num2: '',
-                operacion: '+',
-                resultado: ''
-            },
-            methods: {
-                operar: function (operation) {
-                    switch (operation) {
-                        case '+':
-                            this.resultado = parseInt(this.num1) + parseInt(this.num2);
-                            break;
-                        case '-':
-                            this.resultado = parseInt(this.num1) - parseInt(this.num2);
-                            break;
-                        case '*':
-                            this.resultado = parseInt(this.num1) * parseInt(this.num2);
-                            break;
-                        case '/':
-                            this.resultado = parseInt(this.num1) / parseInt(this.num2);
-                            break;
-                    }
-                    if (this.resultado == Infinity) {
-                        this.resultado = 'Error';
-                    } else if (isNaN(this.resultado)) {
-                        this.resultado = 'Bad arguments';
-                    }
-                    this.operacion = operation;
-                }
-            }
-        })
-    </script>
 </body>
 </html>
