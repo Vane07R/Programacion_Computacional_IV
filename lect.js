@@ -3,16 +3,17 @@ Vue.component('lect', {
         return {
             search: '',
             lecturas: [],
-            client: [],
+            clients: [],
             lect: {
                 show_msg: false,
                 action: 0,
                 msg: '',
                 idLect: '',
-                code: '',
-                name: '',
-                address: '',
-                zone: ''
+                idCli: '',
+                date: '',
+                last_lect: '',
+                new_lect: '',
+                total: 0.00,
             }
         }
     },
@@ -86,10 +87,11 @@ Vue.component('lect', {
                 action: 0,
                 msg: '',
                 idLect: '',
-                code: '',
-                name: '',
-                address: '',
-                zone: ''
+                idCli: '',
+                date: '',
+                last_lect: '',
+                new_lect: '',
+                total: 0.00,
             }
         },
         searchLect() {
@@ -103,6 +105,7 @@ Vue.component('lect', {
     },
     created(){
         this.getLect();
+        this.getCli();
     },
     template: `
         <div>
@@ -118,32 +121,35 @@ Vue.component('lect', {
                 <div class="p-6 bg-white rounded-lg shadow-md flex flex-col">
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="code">
-                            Código
+                            Cliente
                         </label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="code" type="text" placeholder="Código del lectente" v-model="lect.code">
+                        <select name="code" v-model="lect.code" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option v-for="client in clients" :value="client.code">{{ client.name }}</option>
+                        </select>
                     </div>
                     <div class="mb-4">
-                        <label for="name">
-                            Nombre
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="date">
+                            Fecha
                         </label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Nombre del lectente" v-model="lect.name">
+                        <input type="date" name="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="lect.date" required>
                     </div>
                     <div class="mb-4">
-                        <label for="direction">
-                            Dirección
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="last_lect">
+                            Lectura Anterior
                         </label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="direction" type="text" placeholder="Dirección del lectente" v-model="lect.direction">
+                        <input type="number" name="last_lect" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="lect.last_lect" required>
                     </div>
                     <div class="mb-4">
-                        <label for="zone">
-                            Zona
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="new_lect">
+                            Lectura Nueva
                         </label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="zone" type="text" placeholder="Zona del lectente" v-model="lect.zone">
+                        <input type="number" name="new_lect" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="lect.new_lect" required>
                     </div>
-                    <div class="flex justify-center items-center" v-if="lect.show_msg">
-                        <div class="bg-gray-200 text-gray-700 py-3 px-6 mb-0 rounded-lg shadow-md" v-if="lect.show_msg">
-                            <p class="text-center text-gray-700 text-sm">{{lect.msg}}</p>
-                        </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="total">
+                            Total
+                        </label>
+                        <input type="number" name="total" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="lect.total" required>
                     </div>
                     <div class="flex justify-end space-x-4">
                         <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" value="Guardar">
