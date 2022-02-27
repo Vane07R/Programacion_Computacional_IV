@@ -82,7 +82,7 @@ Vue.component('subjects', {
         this.getMaterias();
     },
     template: `
-    <div id="appAlm" class="grid grid-cols-1 gap-4 p-4">
+    <div class="grid grid-cols-1 gap-4 p-4">
         <div class="border-b-2 border-gray-400 bg-white pb-2 flex flex-col items-center rounded-lg justify-self-center sticky top-1">
             <div class="flex items-center">
                 <h1 class="text-2xl font-bold">Materias</h1>
