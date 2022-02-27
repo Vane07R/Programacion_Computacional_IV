@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Academico</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzBlYTVlOSI+CiAgICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTguNSA3YzEuMDkzIDAgMi4xMTcuMjcgMyAuNzQzVjE3YTYuMzQ1IDYuMzQ1IDAgMCAwLTMtLjc0M2MtMS4wOTMgMC0yLjYxNy4yNy0zLjUuNzQzVjcuNzQzQzUuODgzIDcuMjcgNy40MDcgNyA4LjUgN1oiIGNsYXNzPSJmaWxsLXNreS01MDAiLz4KICAgIDxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTUuNSA3YzEuMDkzIDAgMi42MTcuMjcgMy41Ljc0M1YxN2MtLjg4My0uNDczLTIuNDA3LS43NDMtMy41LS43NDNzLTIuMTE3LjI3LTMgLjc0M1Y3Ljc0M2E2LjM0NCA2LjM0NCAwIDAgMSAzLS43NDNaIiBmaWxsPSIjYmFlNmZkIi8+CiA8L3N2Zz4=">
+    <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTSAxIDUgTCAxIDE5IFogWiBNIDEgNSBDIDEgMiAyIDEgNSAxIEwgMjAgMSBDIDIzIDEgMjQgMiAyNCA1IEwgMjQgMTkgQyAyNCAyMiAyMyAyMyAyMCAyMyBMIDUgMjMgQyAyIDIzIDEgMjIgMSAxOSIgZmlsbD0iI2YwZmRmNCIvPgogICAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik04LjUgN2MxLjA5MyAwIDIuMTE3LjI3IDMgLjc0M1YxN2E2LjM0NSA2LjM0NSAwIDAgMC0zLS43NDNjLTEuMDkzIDAtMi42MTcuMjctMy41Ljc0M1Y3Ljc0M0M1Ljg4MyA3LjI3IDcuNDA3IDcgOC41IDdaIiBmaWxsPSIjMGVhNWU5Ii8+CiAgICA8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE1LjUgN2MxLjA5MyAwIDIuNjE3LjI3IDMuNS43NDNWMTdjLS44ODMtLjQ3My0yLjQwNy0uNzQzLTMuNS0uNzQzcy0yLjExNy4yNy0zIC43NDNWNy43NDNhNi4zNDQgNi4zNDQgMCAwIDEgMy0uNzQzWiIgZmlsbD0iIzdkZDNmYyIvPgogPC9zdmc+">
     <style>
         .bg-stripe-white {
             --stripes-color: hsla(0,0%,100%,0.4);
@@ -43,22 +43,8 @@
                 </div>
                 <div class="flex items-center">
                     <a data-form="students" href="#" class="show block lg:inline-block lg:mt-0 text-gray-900 no-underline hover:text-sky-500 mr-4">Alumnos</a>
-                    <a data-form="teachers" href="#" class="show block lg:inline-block lg:mt-0 text-gray-900 no-underline hover:text-sky-500 mr-4">Materias</a>
-                    <div class="inline-block relative dropdown">
-                        <div class="text-gray-900 hover:text-sky-500 focus:outline-none focus:shadow-outline flex items-center" id="user-menu" aria-label="User menu" aria-haspopup="true">
-                            Inscripciones
-                            <svg class="h-4 w-4 stroke-gray-700" viewBox="0 0 24 24" fill="none">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                            </svg>
-                        </div>
-                        <div class="absolute right-0 mt-2 w-48 rounded-md shadow-lg z-30 dropdown-list" style="top: 10px; right: -1px;">
-                            <div class="py-1 rounded-md bg-white shadow-xs">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:text-sky-500 hover:bg-gray-100">Profile</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:text-sky-500 hover:bg-gray-100">Settings</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:text-sky-500 hover:bg-gray-100">Sign out</a>
-                            </div>
-                        </div>
-                    </div>
+                    <a data-form="subjects" href="#" class="show block lg:inline-block lg:mt-0 text-gray-900 no-underline hover:text-sky-500 mr-4">Materias</a>
+                    <a data-form="inscriptions" href="#" class="show block lg:inline-block lg:mt-0 text-gray-900 no-underline hover:text-sky-500 mr-4">Profesores</a>
                 </div>
             </div>
         </div>
@@ -71,6 +57,8 @@
             </svg>
         </div>
         <students rel="students" v-show="forms['students'].show" class="w-full"></students>
+        <!-- <subjects rel="subjects" v-show="forms['subjects'].show" class="w-full"></subjects>
+        <inscriptions rel="inscriptions" v-show="forms['inscriptions'].show" class="w-full"></inscriptions> -->
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

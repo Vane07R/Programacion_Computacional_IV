@@ -39,7 +39,7 @@ Vue.component('students', {
             this.getStudents();
             let student = this.students || [];
             if (this.student.accion === 'nuevo') {
-                this.student.idStudent = getUniqueId('Std');
+                this.student.idStudent = getUniqueId('_std_');
                 student.push(this.student);
             } else if (this.student.accion === 'editar') {
                 let i = student.findIndex(x => x.idStudent === this.student.idStudent);
@@ -89,11 +89,18 @@ Vue.component('students', {
     },
     template: `
     <div class="grid grid-cols-1 gap-4 p-4 shadow-lg rounded-lg">
-        <button class="bg-red-500 text-white w-fit p-2 rounded-lg justify-self-center" @click="close('students')">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-            </svg>
-        </button>
+        <div class="border-b-2 border-gray-400 bg-white pb-2 flex flex-col items-center rounded-lg justify-self-center sticky top-1">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-bold">Estudiantes</h1>
+            </div>
+            <div class="flex items-center">    
+                <button class="bg-red-500 text-white w-fit p-2 rounded-lg" @click="close('students')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
         <div class="container mx-auto border-2 border-stone-600 rounded-t-lg bg-neutral-800 w-11/12 h-fit">
             <div class="flex justify-between items-center p-4 bg-neutral-800 rounded-t-lg text-white overflow-hidden">
                 <h1 class="text-2xl font-bold">Registro de Alumnos</h1>

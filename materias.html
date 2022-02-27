@@ -19,6 +19,18 @@
 </head>
 <body class="font-sans bg-gray-200">
     <div id="appAlm" class="grid grid-cols-1 gap-4 p-4">
+        <div class="border-b-2 border-gray-400 bg-white pb-2 flex flex-col items-center rounded-lg justify-self-center sticky top-1">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-bold">Materias</h1>
+            </div>
+            <div class="flex items-center">    
+                <button class="bg-red-500 text-white w-fit p-2 rounded-lg" @click="close('subjects')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
         <div class="container mx-auto border-2 border-stone-600 rounded-t-lg bg-neutral-800 w-11/12 h-fit">
             <div class="flex justify-between items-center p-4 bg-neutral-800 rounded-t-lg text-white">
                 <h1 class="text-2xl font-bold">Registro de Materias</h1>
@@ -34,14 +46,13 @@
                 <div class="flex flex-wrap p-4">
                     <div class="w-full md:w-1/2 mb-1 px-4 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="h-full w-8 rounded-l-lg bg-transparent shadow-inner shadow-neutral-600 00 fill-gray-100 stroke-1 stroke-current">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 2a.5.5 0 0 1 .5-.5c.862 0 1.573.287 2.06.566.174.099.321.198.44.286.119-.088.266-.187.44-.286A4.165 4.165 0 0 1 10.5 1.5a.5.5 0 0 1 0 1c-.638 0-1.177.213-1.564.434a3.49 3.49 0 0 0-.436.294V7.5H9a.5.5 0 0 1 0 1h-.5v4.272c.1.08.248.187.436.294.387.221.926.434 1.564.434a.5.5 0 0 1 0 1 4.165 4.165 0 0 1-2.06-.566A4.561 4.561 0 0 1 8 13.65a4.561 4.561 0 0 1-.44.285 4.165 4.165 0 0 1-2.06.566.5.5 0 0 1 0-1c.638 0 1.177-.213 1.564-.434.188-.107.335-.214.436-.294V8.5H7a.5.5 0 0 1 0-1h.5V3.228a3.49 3.49 0 0 0-.436-.294A3.166 3.166 0 0 0 5.5 2.5.5.5 0 0 1 5 2zm3.352 1.355zm-.704 9.29z" />
+                            <path d="M 5 2 a 0.5 0.5 0 0 1 0.5 -0.5 c 0.862 0 1.573 0.287 2.06 0.566 c 0.174 0.099 0.321 0.198 0.44 0.286 c 0.119 -0.088 0.266 -0.187 0.44 -0.286 A 4.165 4.165 0 0 1 10.5 1.5 a 0.5 0.5 0 0 1 0 1 c -0.638 0 -1.177 0.213 -1.564 0.434 a 3.49 3.49 0 0 0 -0.436 0.294 V 7.5 H 9 a 0.5 0.5 0 0 1 0 1 h -0.5 v 4.272 c 0.1 0.08 0.248 0.187 0.436 0.294 c 0.387 0.221 0.926 0.434 1.564 0.434 a 0.5 0.5 0 0 1 0 1 a 4.165 4.165 0 0 1 -2.06 -0.566 A 4.561 4.561 0 0 1 8 13.65 a 4.561 4.561 0 0 1 -0.44 0.285 a 4.165 4.165 0 0 1 -2.06 0.566 a 0.5 0.5 0 0 1 0 -1 c 0.638 0 1.177 -0.213 1.564 -0.434 c 0.188 -0.107 0.335 -0.214 0.436 -0.294 V 8.5 H 7 a 0.5 0.5 0 0 1 0 -1 h 0.5 V 3.228 a 3.49 3.49 0 0 0 -0.436 -0.294 A 3.166 3.166 0 0 0 5.5 2.5 A 0.5 0.5 0 0 1 5 2 z M 10 5 v 7 h 4 a 2 2 0 0 0 2 -2 V 6 a 2 2 0 0 0 -2 -2 h -4 z M 6 5 V 4 H 2 a 2 2 0 0 0 -2 2 v 4 a 2 2 0 0 0 2 2 h 4 v -1 z"/>
                         </svg>
                         <input v-model="materia.name" type="text" required pattern="(^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]{1,20})+(([\s][A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]{1,20})+)*$" title="Ingrese el nombre de la materia" placeholder="Nombre" class="shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="w-full md:w-1/2 mb-1 px-4 flex items-center">
-                        <label for="teache">Maestro</label>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="h-full w-8 rounded-l-lg bg-transparent shadow-inner shadow-neutral-600 00 fill-gray-100 stroke-1 stroke-current">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 2a.5.5 0 0 1 .5-.5c.862 0 1.573.287 2.06.566.174.099.321.198.44.286.119-.088.266-.187.44-.286A4.165 4.165 0 0 1 10.5 1.5a.5.5 0 0 1 0 1c-.638 0-1.177.213-1.564.434a3.49 3.49 0 0 0-.436.294V7.5H9a.5.5 0 0 1 0 1h-.5v4.272c.1.08.248.187.436.294.387.221.926.434 1.564.434a.5.5 0 0 1 0 1 4.165 4.165 0 0 1-2.06-.566A4.561 4.561 0 0 1 8 13.65a4.561 4.561 0 0 1-.44.285 4.165 4.165 0 0 1-2.06.566.5.5 0 0 1 0-1c.638 0 1.177-.213 1.564-.434.188-.107.335-.214.436-.294V8.5H7a.5.5 0 0 1 0-1h.5V3.228a3.49 3.49 0 0 0-.436-.294A3.166 3.166 0 0 0 5.5 2.5.5.5 0 0 1 5 2zm3.352 1.355zm-.704 9.29z" />
+                            <path d="M 5 2 a 0.5 0.5 0 0 1 0.5 -0.5 c 0.862 0 1.573 0.287 2.06 0.566 c 0.174 0.099 0.321 0.198 0.44 0.286 c 0.119 -0.088 0.266 -0.187 0.44 -0.286 A 4.165 4.165 0 0 1 10.5 1.5 a 0.5 0.5 0 0 1 0 1 c -0.638 0 -1.177 0.213 -1.564 0.434 a 3.49 3.49 0 0 0 -0.436 0.294 V 7.5 H 9 a 0.5 0.5 0 0 1 0 1 h -0.5 v 4.272 c 0.1 0.08 0.248 0.187 0.436 0.294 c 0.387 0.221 0.926 0.434 1.564 0.434 a 0.5 0.5 0 0 1 0 1 a 4.165 4.165 0 0 1 -2.06 -0.566 A 4.561 4.561 0 0 1 8 13.65 a 4.561 4.561 0 0 1 -0.44 0.285 a 4.165 4.165 0 0 1 -2.06 0.566 a 0.5 0.5 0 0 1 0 -1 c 0.638 0 1.177 -0.213 1.564 -0.434 c 0.188 -0.107 0.335 -0.214 0.436 -0.294 V 8.5 H 7 a 0.5 0.5 0 0 1 0 -1 h 0.5 V 3.228 a 3.49 3.49 0 0 0 -0.436 -0.294 A 3.166 3.166 0 0 0 5.5 2.5 A 0.5 0.5 0 0 1 5 2 z M 10 5 v 7 h 4 a 2 2 0 0 0 2 -2 V 6 a 2 2 0 0 0 -2 -2 h -4 z M 6 5 V 4 H 2 a 2 2 0 0 0 -2 2 v 4 a 2 2 0 0 0 2 2 h 4 v -1 z"/>
                         </svg>
                         <input v-model="materia.teacher" type="text" required pattern="(^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]{1,20})+(([\s][A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]{1,20})+)*$" title="Ingrese el nombre del docente" placeholder="Docente" class="shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
@@ -172,6 +183,7 @@
                 days: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'],
                 materia: {
                     accion: "nuevo",
+                    idMateria: '',
                     name: '',
                     teacher: '',
                     day: '',
@@ -200,7 +212,7 @@
                     this.getMaterias();
                     let materia = this.materias || [];
                     if (this.materia.accion === 'nuevo') {
-                        this.materia.idMateria = getUniqueId('Mat');
+                        this.materia.idMateria = getUniqueId('_mat_');
                         materia.push(this.materia);
                     } else if (this.materia.accion === 'editar') {
                         let i = materia.findIndex(x => x.idMateria === this.materia.idMateria);
