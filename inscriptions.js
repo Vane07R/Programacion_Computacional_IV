@@ -289,7 +289,7 @@ Vue.component('inscriptions', {
                         <tr v-for="inscripcion in inscripciones" @click="modificarInscripcion(inscripcion)" :key="inscripcion.idinscrpcion" class="text-black hover:bg-gray-400 duration-500">
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 px-4 py-2">{{ inscripcion.alumno.lastname }}, {{ inscripcion.alumno.name }} - {{ inscripcion.alumno.code }}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">
-                                <li v-for="materia in inscripcion.materias" :key="materia.idMateria" class="text-gray-700 hover:text-gray-600 duration-500">{{ materia.name }}, {{ materia.day }}, {{ materia.from }} - {{ materia.to }}</li>
+                                <li v-for="materia in inscripcion.materias" :key="materia.idMateria" class="text-gray-700 hover:text-black duration-500">{{ materia.name }}, {{ materia.day }}, {{ materia.from }} - {{ materia.to }}</li>
                             </td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2 items-center">
                                 <button @click="eliminarInscrito(inscripcion)">
