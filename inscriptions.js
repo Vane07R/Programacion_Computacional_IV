@@ -5,11 +5,13 @@ Vue.component('inscriptions', {
             alumnos: [],
             inscripciones: [],
             materias: [],
+            ciclos: ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'],
             inscribir: {
                 limit: 1,
                 accion : 'nuevo',
                 showMsg : false,
                 msg : '',
+                ciclo: '',
                 idInscribir: '',
                 alumno: '',
                 materias: []
@@ -27,6 +29,7 @@ Vue.component('inscriptions', {
             this.inscribir.showMsg = false;
             this.inscribir.msg = '';
             this.inscribir.limit = 1;
+            this.inscribir.ciclo = '';
             this.inscribir.idInscribir = '';
             this.inscribir.alumno = '';
             this.inscribir.materias = [];
@@ -40,11 +43,9 @@ Vue.component('inscriptions', {
             if (this.inscribir.accion === 'nuevo') {
                 this.inscribir.idInscribir = getUniqueId('_ins_');
                 this.inscribir.alumno = this.alumnos.find(alumno => alumno.idStudent === this.inscribir.alumno);
-                console.log(inscribir);
                 inscribir.push(this.inscribir);
             } else if (this.inscribir.accion === 'editar') {
                 let index = inscribir.findIndex(inscripcion => inscripcion.idInscribir === this.inscribir.idInscribir);
-                console.log(this.inscribir.materias);
                 inscribir[index] = this.inscribir;
             } else if (this.inscribir.accion === 'eliminar') {
                 let index = inscribir.findIndex(inscripcion => inscripcion.idInscribir === this.inscribir.idInscribir);
@@ -69,6 +70,7 @@ Vue.component('inscriptions', {
             this.inscribir.showMsg = false;
             this.inscribir.msg = '';
             this.inscribir.limit = inscripcion.limit;
+            this.inscribir.ciclo = inscripcion.ciclo;
             this.inscribir.idInscribir = inscripcion.idInscribir;
             this.inscribir.alumno = inscripcion.alumno;
             this.inscribir.materias = inscripcion.materias;
@@ -192,6 +194,14 @@ Vue.component('inscriptions', {
                         </svg>
                         <input v-model="inscribir.limit" type="number" min="1" max="5" step="1" class="shadow border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" @input="validate" required title="Ingrese la cantidad de materias a inscribir" />
                     </div>
+                    <div class="w-full md:w-1/4 mb-1 px-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-full w-8 rounded-l-lg bg-gray-500 fill-gray-200 stroke-1 stroke-black">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                        <select v-model="inscribir.ciclo" required title="Seleccione el ciclo" class="shadow border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option v-for="ciclo in ciclos" :value="ciclo"> {{ ciclo }} </option>
+                        </select>
+                    </div>
                     <div class="w-full"></div>
                     <div class="w-full h-1/2 md:w-1/2 mb-1 px-4">
                         <div class="w-1/1 flex items-center">
@@ -281,7 +291,8 @@ Vue.component('inscriptions', {
                         </tr>
                         <tr class="text-white">
                             <th class="bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2">Alumno</th>
-                            <th class="bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2">Materia</th>
+                            <th class="bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2">Materias</th>
+                            <th class="bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2">Ciclo</th>
                             <th class="bg-gray-200/25 hover:bg-gray-200/50 duration-500 px-4 py-2"></th>
                         </tr>
                     </thead>
@@ -289,10 +300,11 @@ Vue.component('inscriptions', {
                         <tr v-for="inscripcion in inscripciones" @click="modificarInscripcion(inscripcion)" :key="inscripcion.idinscrpcion" class="text-black hover:bg-gray-400 duration-500">
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 px-4 py-2">{{ inscripcion.alumno.lastname }}, {{ inscripcion.alumno.name }} - {{ inscripcion.alumno.code }}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">
-                                <ul class="list-disc list-outside">
+                                <ul class="list-disc list-outside pl-2">
                                     <li v-for="materia in inscripcion.materias" class="text-gray-700 hover:text-black duration-500">{{ materia.name }}, {{ materia.day }}, {{ materia.from }} - {{ materia.to }}</li>
                                 </ul>
                             </td>
+                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 px-4 py-2">{{ inscripcion.ciclo }}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2 items-center">
                                 <button @click="eliminarInscrito(inscripcion)">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="h-8 w-8 duration-500 fill-red-500 stroke-0">
