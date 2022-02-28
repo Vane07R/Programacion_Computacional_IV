@@ -189,10 +189,10 @@ Vue.component('subjects', {
                             <tr>
                                 <th colspan="9" class="px-4 py-2 rounded-tl-lg bg-gray-200/25 duration-500">
                                     <div class="flex justify-between items-center">
-                                        <svg @click="searchMateria" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-full w-8 rounded-l-lg bg-gray-200/50 hover:bg-gray-200/75 duration-500 shadow-inner shadow-neutral-600 00 fill-gray-100/25 stroke-2 stroke-black">
+                                        <svg @click="searchMateria" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-10 w-8 rounded-l-lg bg-white hover:bg-gray-300 duration-500 fill-gray-100/25 stroke-2 stroke-black">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                         </svg>
-                                        <input @keyup="searchMateria" v-model="word" type="text" placeholder="Buscar" class="w-full h-full px-4 py-2 bg-gray-100 border-2 border-transparent rounded-lg text-gray-700">
+                                        <input @keyup="searchMateria" v-model="word" type="text" placeholder="Buscar" class="w-full h-10 px-4 py-2 bg-gray-100 border-2 border-transparent rounded-r-lg text-gray-700">
                                     </div>
                                 </th>
                             </tr>
