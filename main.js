@@ -20,9 +20,8 @@ let app = new Vue({
     data: {
         forms: {
             'students': { show: false },
-            'teachers': { show: false },
             'subjects': { show: false },
-            'registers': { show: false },
+            'inscriptions': { show: false },
         }
     },
     methods: {
