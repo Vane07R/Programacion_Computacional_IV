@@ -24,41 +24,46 @@ Vue.component('componente-cliente', {
                 this.cli.msg = 'Error al procesar el cliente';
             });
         },
-        getCli() {
-            this.clients = [];
-            if (localStorage.getItem('clients') != null) {
-                for (let i = 0; i < JSON.parse(localStorage.getItem('clients')).length; i++) {
-                    let data = JSON.parse(localStorage.getItem('clients'))[i];
-                    if (this.search.length > 0) {
-                        if (data.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
-                            this.clients.push(data);
-                        }
-                    } else {
-                        this.clients.push(data);
-                    }
+        getCli(word) {
+            let store = openStore('clients', 'readonly'),
+                data = store.getAll();
+            data.onsuccess = (resp) => {
+                if (data.result.length > 0) {
+                    fetch(`modules/clis/cli.php?cli=${JSON.stringify(this.cli)}&action=get_data`, {credentials: 'same-origin'}).then(res => res.json()).then(data => {
+                        this.clients = data;
+                        this.cli.msg = 'Cliente procesado con exito';
+
+                        data.map(cli => {
+                            let store = openStore('clients', 'readonly'),
+                                query = store.put(cli);
+                            query.onsuccess = (resp) => {
+                                this.cli.msg = 'Cliente guardado en local';
+                            };
+                            query.onerror = (err) => {
+                                this.cli.msg = 'Error al guardar el cliente';
+                            };
+                        });
+                    })
+                    .catch(err => {
+                        this.cli.msg = 'Error al procesar el cliente';
+                    });
                 }
-            }
+                this.cli = data.resp.filter(cli => { return cli.name.toLowerCase().indexOf(word.toLowerCase()) > -1 });
+            };
+            data.onerror = (err) => {
+                this.cli.msg = 'Error al obtener los clientes';
+            };
         },
         saveCli(){
-            this.getCli();
-            let cli = this.clients || [];
             let action = ['registrado', 'actualizado', 'eliminado'];
             if (this.cli.action == 0) {
                 this.cli.idCli = genDateId();
-                cli.push(this.cli);
-            } else if (this.cli.action == 1) {
-                let index = cli.findIndex(cli => cli.idCli == this.cli.idCli);
-                cli[index] = this.cli;
-            } else if (this.cli.action == 2) {
-                let index = cli.findIndex(cli => cli.idCli == this.cli.idCli);
-                cli.splice(index, 1);
             }
             let store = openStore('clients', 'readwrite'),
                 request = store.put(cli);
             request.onsuccess = () => {
-                localStorage.setItem('clients', JSON.stringify(cli));
-                this.cli.show_msg = true;
                 this.syncClients();
+                this.cli.show_msg = true;
                 this.newCli();
                 this.getCli();
                 this.cli.msg = `Se a ${action[this.cli.action]} correctamente el cliente`;
@@ -83,20 +88,23 @@ Vue.component('componente-cliente', {
         },
         delCli(cli) {
             if (confirm(`¿Está seguro de eliminar el cliente ${cli.name}?`)) {
+                let store = openStore('clients', 'readwrite'),
+                    request = store.delete(cli.idCli);
+                request.onsuccess = () => {
                 this.cli.action = 2;
-                localStorage.removeItem(cli.idCli);
-                this.saveCli();
+                    this.syncClients();
+                    this.cli.show_msg = true;
+                    this.newCli();
+                    this.getCli();
+                    this.cli.msg = `Se a eliminado correctamente el cliente`;
+                };
+                request.onerror = () => {
+                    this.cli.msg = 'Error al procesar el cliente';
+                }
             }
-            this.newCli();
         },
         searchCli(){
-            this.getCli( this.search );
-            this.clients.filter(cli => {
-                if (cli.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
-                    return cli;
-                }
-            });
-            console.log(this.clients, this.cli.search);
+            this.getCli(this.search);
         }
     },
     created(){
