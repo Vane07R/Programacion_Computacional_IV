@@ -50,11 +50,11 @@ let app = new Vue ({
 });
 
 document.addEventListener('DOMContentLoaded', e => {
-    let $elements = document.querySelectorAll('.mostrar').forEach(element => {
+    let $elements = document.querySelectorAll('.mostrar').forEach((element, index) => {
         element.addEventListener('click', e => {
-            let form = e.target.dataset.form;
-            app.forms[form].mostrar = true;
-            app.$refs[form].getData();
+            console.log(e.target.dataset.form);
+            app.forms[e.target.dataset.form].mostrar = true;
+            app.$refs[e.target.dataset.form].getData();
         });
     });
 });

@@ -24,7 +24,7 @@ Vue.component('componente-cliente', {
                 this.cli.msg = 'Error al procesar el cliente';
             });
         },
-        getCli(word) {
+        getData(word) {
             let store = openStore('clients', 'readonly'),
                 data = store.getAll();
             data.onsuccess = (resp) => {
@@ -60,12 +60,12 @@ Vue.component('componente-cliente', {
                 this.cli.idCli = genDateId();
             }
             let store = openStore('clients', 'readwrite'),
-                request = store.put(cli);
+                request = store.put(this.cli);
             request.onsuccess = () => {
                 this.syncClients();
                 this.cli.show_msg = true;
                 this.newCli();
-                this.getCli();
+                this.getData('');
                 this.cli.msg = `Se a ${action[this.cli.action]} correctamente el cliente`;
             };
             request.onerror = () => {
@@ -95,7 +95,7 @@ Vue.component('componente-cliente', {
                     this.syncClients();
                     this.cli.show_msg = true;
                     this.newCli();
-                    this.getCli();
+                    this.getData('');
                     this.cli.msg = `Se a eliminado correctamente el cliente`;
                 };
                 request.onerror = () => {
@@ -104,11 +104,11 @@ Vue.component('componente-cliente', {
             }
         },
         searchCli(){
-            this.getCli(this.search);
+            this.getData(this.search);
         }
     },
     created(){
-        this.getCli();
+        // this.getData('');
     },
     template: `
     <div id="appCli">
