@@ -17,6 +17,13 @@ Vue.component('componente-cliente', {
         }
     },
     methods: {
+        syncClients(){
+            fetch(`modules/clis/cli.php?cli=${JSON.stringify(this.cli)}&action=get_data`, {credentials: 'same-origin'}).then(res => res.json()).then(data => {
+                this.cli.msg = 'Cliente procesado con exito';
+            }).catch(err => {
+                this.cli.msg = 'Error al procesar el cliente';
+            });
+        },
         getCli() {
             this.clients = [];
             if (localStorage.getItem('clients') != null) {
@@ -33,23 +40,31 @@ Vue.component('componente-cliente', {
             }
         },
         saveCli(){
-            let store = openStore('client','readwrite');
-            if( this.cli.accion == 'new' ){
-                this.cli.idCLi = genDateId();
+            this.getCli();
+            let cli = this.clients || [];
+            let action = ['registrado', 'actualizado', 'eliminado'];
+            if (this.cli.action == 0) {
+                this.cli.idCli = genDateId();
+                cli.push(this.cli);
+            } else if (this.cli.action == 1) {
+                let index = cli.findIndex(cli => cli.idCli == this.cli.idCli);
+                cli[index] = this.cli;
+            } else if (this.cli.action == 2) {
+                let index = cli.findIndex(cli => cli.idCli == this.cli.idCli);
+                cli.splice(index, 1);
             }
-            let query = store.put(this.cli);
-            query.onsuccess=e=>{
-                fetch(`modulos/clis/cli.php?cli=${JSON.stringify(this.cli)}&accion=get_data`, {credentials: 'same-origin'}).then(res => res.json()).then(data => {
-                    this.cli.msg = 'Cliente procesado con exito';
-                }).catch(err => {
-                    this.cli.msg = 'Error al procesar el cliente';
-                });
-                this.cli.msg = 'Cliente procesado con exito';
-                this.nuevoCliente();
-                this.obtenerDatos();
+            let store = openStore('clients', 'readwrite'),
+                request = store.put(cli);
+            request.onsuccess = () => {
+                localStorage.setItem('clients', JSON.stringify(cli));
+                this.cli.show_msg = true;
+                this.syncClients();
+                this.newCli();
+                this.getCli();
+                this.cli.msg = `Se a ${action[this.cli.action]} correctamente el cliente`;
             };
-            query.onerror=e=>{
-                this.cli.msg = 'Error al procesar el cli';
+            request.onerror = () => {
+                this.cli.msg = 'Error al procesar el cliente';
             };
         },
         showCli(cli) {

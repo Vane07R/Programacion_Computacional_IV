@@ -5,7 +5,7 @@ class db {
     public function db($server, $user, $pass,) {
         $this->conex = new PDO($server, $user, $pass, array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)) or die("Error en la conexión");
     }
-    public function query($sql) {
+    public function consultas($sql) {
         try {
             $params = func_get_args();
             array_shift($params);
