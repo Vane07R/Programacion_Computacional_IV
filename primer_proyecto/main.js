@@ -16,12 +16,12 @@ let app = new Vue ({
     methods: {
         openBd() {
             let indexDB = indexedDB.open('db_sistema_a2', 1);
-            indexDB.onsuccess = (e) => {
+            indexDB.onupgradeneeded = (e) => {
                 let db = e.target.result;
-                tblClients = db.transaction('clients', 'readwrite').objectStore('clients');
-                tblProducts = db.transaction('products', 'readwrite').objectStore('products');
-                tblProviders = db.transaction('providers', 'readwrite').objectStore('providers');
-                tblCategories = db.transaction('categories', 'readwrite').objectStore('categories');
+                tblClients = db.createObjectStore('clients', { keyPath: 'idCli' });
+                tblProducts = db.createObjectStore('products', { keyPath: 'idProd' });
+                tblProviders = db.createObjectStore('providers', { keyPath: 'idProv' });
+                tblCategories = db.createObjectStore('categories', { keyPath: 'idCat' });
 
                 tblClients.createIndex('idCli', 'idCli', { unique: true });
                 tblProducts.createIndex('cliCode', 'cliCode', { unique: false });
@@ -34,13 +34,12 @@ let app = new Vue ({
 
                 tblProducts.createIndex('idProd', 'idProd', { unique: true });
                 tblProducts.createIndex('prodCode', 'prodCode', { unique: false });
-                tblProducts.createIndex('id', 'id', { unique: false });
             };
             indexDB.onsuccess = (e) => {
                 db = e.target.result;
             };
             indexDB.onerror = (e) => {
-                console.log(e.target.errorCode);
+                console.log(e.target.error);
             };
         },
     },
@@ -49,10 +48,9 @@ let app = new Vue ({
     }
 });
 
-document.addEventListener('DOMContentLoaded', e => {
+document.addEventListener('DOMContentLoaded', (e) => {
     let $elements = document.querySelectorAll('.mostrar').forEach((element, index) => {
-        element.addEventListener('click', e => {
-            console.log(e.target.dataset.form);
+        element.addEventListener('click', (e) => {
             app.forms[e.target.dataset.form].mostrar = true;
             app.$refs[e.target.dataset.form].getData();
         });

@@ -17,8 +17,8 @@ Vue.component('componente-cliente', {
         }
     },
     methods: {
-        syncClients(){
-            fetch(`modules/clis/cli.php?cli=${JSON.stringify(this.cli)}&action=get_data`, {credentials: 'same-origin'}).then(res => res.json()).then(data => {
+        syncClients(cli = '') {
+            fetch(`modules/clis/cli.php?cli=${JSON.stringify(cli)}&action=get_data`, {credentials: 'same-origin'}).then(res => res.json()).then(data => {
                 this.cli.msg = 'Cliente procesado con exito';
             }).catch(err => {
                 this.cli.msg = 'Error al procesar el cliente';
@@ -28,8 +28,9 @@ Vue.component('componente-cliente', {
             let store = openStore('clients', 'readonly'),
                 data = store.getAll();
             data.onsuccess = (resp) => {
-                if (data.result.length > 0) {
-                    fetch(`modules/clis/cli.php?cli=${JSON.stringify(this.cli)}&action=get_data`, {credentials: 'same-origin'}).then(res => res.json()).then(data => {
+                console.log(data.result.length >= 0);
+                if (data.result.length >= 0) {
+                    fetch(`modules/clis/cli.php?cli=${JSON.stringify(this.cli)}&action=get_records`, {credentials: 'same-origin'}).then(res => res.json()).then(data => {
                         this.clients = data;
                         this.cli.msg = 'Cliente procesado con exito';
 
@@ -48,7 +49,8 @@ Vue.component('componente-cliente', {
                         this.cli.msg = 'Error al procesar el cliente';
                     });
                 }
-                this.cli = data.resp.filter(cli => { return cli.name.toLowerCase().indexOf(word.toLowerCase()) > -1 });
+                // this.clients = data.result.filter(cli => cli.name.toLoweCase().indexOf(word.toLowerCase()) > -1);
+                console.log(this.clients);
             };
             data.onerror = (err) => {
                 this.cli.msg = 'Error al obtener los clientes';
@@ -61,14 +63,15 @@ Vue.component('componente-cliente', {
             }
             let store = openStore('clients', 'readwrite'),
                 request = store.put(this.cli);
-            request.onsuccess = () => {
-                this.syncClients();
+            console.log(request);
+            request.onsuccess = (e) => {
+                this.syncClients(this.cli);
                 this.cli.show_msg = true;
                 this.newCli();
                 this.getData('');
                 this.cli.msg = `Se a ${action[this.cli.action]} correctamente el cliente`;
             };
-            request.onerror = () => {
+            request.onerror = (e) => {
                 this.cli.msg = 'Error al procesar el cliente';
             };
         },
