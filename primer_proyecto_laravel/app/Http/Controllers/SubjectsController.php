@@ -14,7 +14,7 @@ class SubjectsController extends Controller
      */
     public function index()
     {
-        //
+        return Subjects::get();
     }
 
     /**
@@ -35,7 +35,9 @@ class SubjectsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $id = Subjects::create($request->all())->id;
+        $idSubject = $request->idSubject;
+        return response()->json(['id' => $id, 'idSubject' => $idSubject], 200);
     }
 
     /**
@@ -46,7 +48,7 @@ class SubjectsController extends Controller
      */
     public function show(Subjects $subjects)
     {
-        //
+        return $subjects;
     }
 
     /**
@@ -69,7 +71,10 @@ class SubjectsController extends Controller
      */
     public function update(Request $request, Subjects $subjects)
     {
-        //
+        $id = $request->id;
+        $subject = Subjects::find($id);
+        $subject->update($request->all());
+        return response()->json(['id' => $id], 200);
     }
 
     /**
@@ -78,8 +83,9 @@ class SubjectsController extends Controller
      * @param  \App\Models\Subjects  $subjects
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subjects $subjects)
+    public function destroy($id, Subjects $subjects)
     {
-        //
+        $subject->destroy($id);
+        return response()->json(['id' => $id], 200);
     }
 }

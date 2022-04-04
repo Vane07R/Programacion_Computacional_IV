@@ -39,8 +39,8 @@
                     </svg>
                 </div>
                 <students-component v-bind:form="forms" ref="students" v-show="forms['students'].show" class="w-full"></students-component>
-                <!-- <subjects v-bind:form="forms" ref="subjects" v-show="forms['subjects'].show" class="w-full"></subjects>
-                <inscriptions v-bind:form="forms" ref="inscriptions" v-show="forms['inscriptions'].show" class="w-full"></inscriptions> -->
+                <subjects v-bind:form="forms" ref="subjects" v-show="forms['subjects'].show" class="w-full"></subjects>
+           <!-- <inscriptions v-bind:form="forms" ref="inscriptions" v-show="forms['inscriptions'].show" class="w-full"></inscriptions> -->
             </div>
         </div>
 
