@@ -42,14 +42,14 @@
                             <text x="24" y="15" font-family="Verdana" font-size="10">De</text>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <input v-model="materia.from" type="time" required title="Ingrese la hora de inicio de la materia" class="shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <input v-model="materia.start" type="time" required title="Ingrese la hora de inicio de la materia" class="shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="w-full md:w-1/4 mb-1 px-4 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 24" class="h-full w-12 rounded-l-lg bg-gray-500 fill-gray-200 stroke-1 stroke-black">
                             <text x="24" y="15" font-family="Verdana" font-size="10">A</text>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <input v-model="materia.to" type="time" required title="Ingrese la hora de fin de la materia" class="shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <input v-model="materia.finish" type="time" required title="Ingrese la hora de fin de la materia" class="shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="w-full md:w-1/2 mb-1 px-4 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-full w-8 rounded-l-lg bg-gray-500 fill-gray-200 stroke-1 stroke-black">
@@ -127,8 +127,8 @@
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 px-4 py-2">{{ materia.name}}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.teacher }}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.day }}</td>
-                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.from }}</td>
-                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.to }}</td>
+                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.start }}</td>
+                            <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.finish }}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2">{{ materia.room }}</td>
                             <td class="bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2 items-center">
                                 <button @click="delMateria(materia)">
@@ -159,46 +159,70 @@
                         name: '',
                         teacher: '',
                         day: '',
-                        from: '',
-                        to: '',
+                        start: '',
+                        finish: '',
                         room: '',
                 }
             }
         },
         methods: {
-            getMaterias() {
+            getData() {
                 this.materias = [];
-                if (localStorage.getItem('materias') !== null) {
+                if (localStorage.getItem('materias') !== null && localStorage.getItem('materias') !== '[]') {
                     for (let i = 0; i < JSON.parse(localStorage.getItem('materias')).length; i++) {
                         let data = JSON.parse(localStorage.getItem('materias'))[i];
-                        if (this.word.length > 0) {
-                            if (data.name.toLowerCase().includes(this.word.toLowerCase()) || data.teacher.toLowerCase().includes(this.word.toLowerCase())) {
-                                this.materias.push(data);
-                            }
-                        } else {
-                            this.materias.push(data);
-                        }
+                        this.materias.push(data);
                     }
+                } else {
+                    fetch('subjects',
+                        {credentials: 'same-origin'})
+                    .then(response => response.json())
+                    .then(data => {
+                        data.map(materia => {
+                            this.materias.push(materia);
+                            localStorage.setItem('materias', JSON.stringify(this.materias));
+                        });
+                    })
+                    .catch(error => console.log(error));
                 }
+                this.materias = this.materias.filter(materia => materia.name.toLowerCase().includes(this.word.toLowerCase()));
+            },
+            async syncData(data='', method='POST', url='subjects') {
+                await axios({
+                    method,
+                    url,
+                    data,
+                })
+                .then(res => {
+                    if (data.accion === 'nuevo') {
+                        let i = this.materias.findIndex(materia => materia.idMateria === res.data.idMateria);
+                        this.materias[i].id = res.data.id;
+                        let materias = JSON.parse(localStorage.getItem('materias'));
+                        materias[i].id = res.data.id;
+                        localStorage.setItem('materias', JSON.stringify(materias));
+                    }
+                })
             },
             saveChanges() {
-                this.getMaterias();
-                let materia = this.materias || [];
+                this.getData();
+                let materia = this.materias || [],
+                    method = 'PUT',
+                    url = `subjects/${this.materia.idMateria}`;
                 if (this.materia.accion === 'nuevo') {
                     this.materia.idMateria = getUniqueId('_mat_');
                     materia.push(this.materia);
+                    method = 'POST';
+                    url = 'subjects';
                 } else if (this.materia.accion === 'editar') {
                     let i = materia.findIndex(x => x.idMateria === this.materia.idMateria);
                     materia[i] = this.materia;
-                } else if (this.materia.accion === 'eliminar') {
-                    let i = materia.findIndex(x => x.idMateria === this.materia.idMateria);
-                    materia.splice(i, 1);
                 }
                 localStorage.setItem('materias', JSON.stringify(materia));
+                this.syncData(this.materia, method, url);
                 this.materia.showMsg = true;
                 this.materia.msg = 'Se guardaron los cambios correctamente';
                 this.clearForm();
-                this.getMaterias();
+                this.getData();
             },
             showMateria(Mat) {
                 this.materia = JSON.parse(JSON.stringify(Mat));
@@ -206,29 +230,35 @@
             },
             delMateria(Mat) {
                 if (confirm(`¿Está seguro de eliminar el estudiante ${Mat.name}?`)) {
-                    this.materia.accion = 'eliminar';
-                    this.materia.idMateria = Mat.idMateria;
-                    this.saveChanges();
+                    let method = 'DELETE',
+                        url = `subjects/${Mat.idMateria}`;
+                    this.syncData(Mat, method, url);
+                    let materias = JSON.parse(localStorage.getItem('materias')),
+                        i = materias.findIndex(x => x.idMateria === Mat.idMateria);
+                    materias.splice(i, 1);
+                    localStorage.setItem('materias', JSON.stringify(materias));
+                    this.clearForm();
+                    this.getData();
                 }
             },
             clearForm() {
                 this.materia.name = '';
                 this.materia.teacher = '';
                 this.materia.day = '';
-                this.materia.from = '';
-                this.materia.to= '';
+                this.materia.start = '';
+                this.materia.finish= '';
                 this.materia.room = '';
                 this.materia.accion = 'nuevo';
             },
             searchMateria() {
-                this.getMaterias();
+                this.getData();
             },
             close(target) {
                 close(target);
             }
         },
         created() {
-            this.getMaterias();
+            this.getData();
         }
     }
 </script>

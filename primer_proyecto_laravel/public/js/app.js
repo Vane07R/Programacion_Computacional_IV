@@ -5631,6 +5631,340 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SubjectComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SubjectComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['forms'],
+  data: function data() {
+    return {
+      word: '',
+      materias: [],
+      days: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'],
+      materia: {
+        accion: "nuevo",
+        idMateria: '',
+        name: '',
+        teacher: '',
+        day: '',
+        start: '',
+        finish: '',
+        room: ''
+      }
+    };
+  },
+  methods: {
+    getData: function getData() {
+      var _this = this;
+
+      this.materias = [];
+
+      if (localStorage.getItem('materias') !== null && localStorage.getItem('materias') !== '[]') {
+        for (var i = 0; i < JSON.parse(localStorage.getItem('materias')).length; i++) {
+          var data = JSON.parse(localStorage.getItem('materias'))[i];
+          this.materias.push(data);
+        }
+      } else {
+        fetch('subjects', {
+          credentials: 'same-origin'
+        }).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          data.map(function (materia) {
+            _this.materias.push(materia);
+
+            localStorage.setItem('materias', JSON.stringify(_this.materias));
+          });
+        })["catch"](function (error) {
+          return console.log(error);
+        });
+      }
+
+      this.materias = this.materias.filter(function (materia) {
+        return materia.name.toLowerCase().includes(_this.word.toLowerCase());
+      });
+    },
+    syncData: function syncData() {
+      var _arguments = arguments,
+          _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var data, method, url;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                data = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : '';
+                method = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 'POST';
+                url = _arguments.length > 2 && _arguments[2] !== undefined ? _arguments[2] : 'subjects';
+                _context.next = 5;
+                return axios({
+                  method: method,
+                  url: url,
+                  data: data
+                }).then(function (res) {
+                  if (data.accion === 'nuevo') {
+                    var i = _this2.materias.findIndex(function (materia) {
+                      return materia.idMateria === res.data.idMateria;
+                    });
+
+                    _this2.materias[i].id = res.data.id;
+                    var materias = JSON.parse(localStorage.getItem('materias'));
+                    materias[i].id = res.data.id;
+                    localStorage.setItem('materias', JSON.stringify(materias));
+                  }
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    saveChanges: function saveChanges() {
+      var _this3 = this;
+
+      this.getData();
+      var materia = this.materias || [],
+          method = 'PUT',
+          url = "subjects/".concat(this.materia.idMateria);
+
+      if (this.materia.accion === 'nuevo') {
+        this.materia.idMateria = getUniqueId('_mat_');
+        materia.push(this.materia);
+        method = 'POST';
+        url = 'subjects';
+      } else if (this.materia.accion === 'editar') {
+        var i = materia.findIndex(function (x) {
+          return x.idMateria === _this3.materia.idMateria;
+        });
+        materia[i] = this.materia;
+      }
+
+      localStorage.setItem('materias', JSON.stringify(materia));
+      this.syncData(this.materia, method, url);
+      this.materia.showMsg = true;
+      this.materia.msg = 'Se guardaron los cambios correctamente';
+      this.clearForm();
+      this.getData();
+    },
+    showMateria: function showMateria(Mat) {
+      this.materia = JSON.parse(JSON.stringify(Mat));
+      this.materia.accion = 'editar';
+    },
+    delMateria: function delMateria(Mat) {
+      if (confirm("\xBFEst\xE1 seguro de eliminar el estudiante ".concat(Mat.name, "?"))) {
+        var method = 'DELETE',
+            url = "subjects/".concat(Mat.idMateria);
+        this.syncData(Mat, method, url);
+        var materias = JSON.parse(localStorage.getItem('materias')),
+            i = materias.findIndex(function (x) {
+          return x.idMateria === Mat.idMateria;
+        });
+        materias.splice(i, 1);
+        localStorage.setItem('materias', JSON.stringify(materias));
+        this.clearForm();
+        this.getData();
+      }
+    },
+    clearForm: function clearForm() {
+      this.materia.name = '';
+      this.materia.teacher = '';
+      this.materia.day = '';
+      this.materia.start = '';
+      this.materia.finish = '';
+      this.materia.room = '';
+      this.materia.accion = 'nuevo';
+    },
+    searchMateria: function searchMateria() {
+      this.getData();
+    },
+    close: function (_close) {
+      function close(_x) {
+        return _close.apply(this, arguments);
+      }
+
+      close.toString = function () {
+        return _close.toString();
+      };
+
+      return close;
+    }(function (target) {
+      close(target);
+    })
+  },
+  created: function created() {
+    this.getData();
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -5672,6 +6006,7 @@ window.close = function (target) {
 
 
 Vue.component('students-component', (__webpack_require__(/*! ./components/StudentComponent.vue */ "./resources/js/components/StudentComponent.vue")["default"]));
+Vue.component('subjects', (__webpack_require__(/*! ./components/SubjectComponent.vue */ "./resources/js/components/SubjectComponent.vue")["default"]));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -28990,6 +29325,45 @@ component.options.__file = "resources/js/components/StudentComponent.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/SubjectComponent.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/SubjectComponent.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SubjectComponent_vue_vue_type_template_id_bfdee9c8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SubjectComponent.vue?vue&type=template&id=bfdee9c8& */ "./resources/js/components/SubjectComponent.vue?vue&type=template&id=bfdee9c8&");
+/* harmony import */ var _SubjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SubjectComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/SubjectComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SubjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SubjectComponent_vue_vue_type_template_id_bfdee9c8___WEBPACK_IMPORTED_MODULE_0__.render,
+  _SubjectComponent_vue_vue_type_template_id_bfdee9c8___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/SubjectComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/StudentComponent.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************!*\
   !*** ./resources/js/components/StudentComponent.vue?vue&type=script&lang=js& ***!
@@ -29006,6 +29380,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/SubjectComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/SubjectComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SubjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SubjectComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SubjectComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SubjectComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/StudentComponent.vue?vue&type=template&id=61ac4e6d&":
 /*!*************************************************************************************!*\
   !*** ./resources/js/components/StudentComponent.vue?vue&type=template&id=61ac4e6d& ***!
@@ -29019,6 +29409,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentComponent_vue_vue_type_template_id_61ac4e6d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentComponent_vue_vue_type_template_id_61ac4e6d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StudentComponent.vue?vue&type=template&id=61ac4e6d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/StudentComponent.vue?vue&type=template&id=61ac4e6d&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/SubjectComponent.vue?vue&type=template&id=bfdee9c8&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/SubjectComponent.vue?vue&type=template&id=bfdee9c8& ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubjectComponent_vue_vue_type_template_id_bfdee9c8___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubjectComponent_vue_vue_type_template_id_bfdee9c8___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SubjectComponent_vue_vue_type_template_id_bfdee9c8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SubjectComponent.vue?vue&type=template&id=bfdee9c8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SubjectComponent.vue?vue&type=template&id=bfdee9c8&");
 
 
 /***/ }),
@@ -30073,6 +30480,962 @@ var staticRenderFns = [
         "th",
         { staticClass: "bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2" },
         [_vm._v("DUI")]
+      ),
+      _vm._v(" "),
+      _c("th", {
+        staticClass:
+          "bg-gray-200/25 hover:bg-gray-200/50 duration-500 px-4 py-2",
+      }),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SubjectComponent.vue?vue&type=template&id=bfdee9c8&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SubjectComponent.vue?vue&type=template&id=bfdee9c8& ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass:
+        "grid grid-cols-1 gap-4 py-2 shadow-lg rounded-lg bg-gray-200/40",
+    },
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "border-b-2 border-gray-400 bg-white pb-2 flex flex-col items-center rounded-lg justify-self-center sticky top-1",
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex items-center" }, [
+            _c(
+              "button",
+              {
+                staticClass: "bg-red-500 text-white w-fit p-2 rounded-lg",
+                on: {
+                  click: function ($event) {
+                    return _vm.close("subjects")
+                  },
+                },
+              },
+              [
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-6 w-6",
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      fill: "none",
+                      viewBox: "0 0 24 24",
+                      stroke: "currentColor",
+                    },
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "stroke-linecap": "round",
+                        "stroke-linejoin": "round",
+                        "stroke-width": "2",
+                        d: "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z",
+                      },
+                    }),
+                  ]
+                ),
+              ]
+            ),
+          ]),
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "container mx-auto border-2 border-stone-600 rounded-t-lg bg-neutral-800 w-11/12 h-fit",
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex justify-between items-center p-4 bg-neutral-800 rounded-t-lg text-white",
+            },
+            [
+              _c("h1", { staticClass: "text-2xl font-bold" }, [
+                _vm._v("Registro de Materias"),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex items-center" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "w-14 h-14 bg-neutral-800 hover:bg-neutral-700 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full",
+                    attrs: {
+                      "data-target": "formMat",
+                      onclick: "showHide(this)",
+                    },
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass:
+                          "h-6 w-6 stroke-white stroke-2 fill-transparent",
+                        attrs: { xmlns: "http://www.w3.org/2000/svg" },
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            d: "M19 9l-7 7-7-7",
+                          },
+                        }),
+                      ]
+                    ),
+                  ]
+                ),
+              ]),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "form",
+            {
+              staticClass: "bg-neutral-300 overflow-hidden h-fit",
+              attrs: { method: "post", id: "formMat" },
+              on: {
+                submit: function ($event) {
+                  $event.preventDefault()
+                  return _vm.saveChanges.apply(null, arguments)
+                },
+                reset: function ($event) {
+                  $event.preventDefault()
+                  return _vm.clearForm.apply(null, arguments)
+                },
+              },
+            },
+            [
+              _c("div", { staticClass: "flex flex-wrap p-4" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full md:w-1/2 mb-1 px-4 flex items-center",
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass:
+                          "h-full w-8 rounded-l-lg bg-gray-500 fill-gray-200 stroke-1 stroke-black",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 16 16",
+                        },
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "stroke-width": "0.5",
+                            d: "M 5 2 a 0.5 0.5 0 0 1 0.5 -0.5 c 0.862 0 1.573 0.287 2.06 0.566 c 0.174 0.099 0.321 0.198 0.44 0.286 c 0.119 -0.088 0.266 -0.187 0.44 -0.286 A 4.165 4.165 0 0 1 10.5 1.5 a 0.5 0.5 0 0 1 0 1 c -0.638 0 -1.177 0.213 -1.564 0.434 a 3.49 3.49 0 0 0 -0.436 0.294 V 7.5 H 9 a 0.5 0.5 0 0 1 0 1 h -0.5 v 4.272 c 0.1 0.08 0.248 0.187 0.436 0.294 c 0.387 0.221 0.926 0.434 1.564 0.434 a 0.5 0.5 0 0 1 0 1 a 4.165 4.165 0 0 1 -2.06 -0.566 A 4.561 4.561 0 0 1 8 13.65 a 4.561 4.561 0 0 1 -0.44 0.285 a 4.165 4.165 0 0 1 -2.06 0.566 a 0.5 0.5 0 0 1 0 -1 c 0.638 0 1.177 -0.213 1.564 -0.434 c 0.188 -0.107 0.335 -0.214 0.436 -0.294 V 8.5 H 7 a 0.5 0.5 0 0 1 0 -1 h 0.5 V 3.228 a 3.49 3.49 0 0 0 -0.436 -0.294 A 3.166 3.166 0 0 0 5.5 2.5 A 0.5 0.5 0 0 1 5 2 z M 10 5 v 7 h 4 a 2 2 0 0 0 2 -2 V 6 a 2 2 0 0 0 -2 -2 h -4 z M 6 5 V 4 H 2 a 2 2 0 0 0 -2 2 v 4 a 2 2 0 0 0 2 2 h 4 v -1 z",
+                          },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.materia.name,
+                          expression: "materia.name",
+                        },
+                      ],
+                      staticClass:
+                        "shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                      attrs: {
+                        type: "text",
+                        required: "",
+                        pattern:
+                          "(^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]{1,20})+(([\\s][A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]{1,20})+)*$",
+                        title: "Ingrese el nombre de la materia",
+                        placeholder: "Nombre",
+                      },
+                      domProps: { value: _vm.materia.name },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.materia, "name", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full md:w-1/2 mb-1 px-4 flex items-center",
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass:
+                          "h-full w-8 rounded-l-lg bg-gray-500 fill-gray-200 stroke-1 stroke-black",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 16 16",
+                        },
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "stroke-width": "0.5",
+                            d: "M 5 2 a 0.5 0.5 0 0 1 0.5 -0.5 c 0.862 0 1.573 0.287 2.06 0.566 c 0.174 0.099 0.321 0.198 0.44 0.286 c 0.119 -0.088 0.266 -0.187 0.44 -0.286 A 4.165 4.165 0 0 1 10.5 1.5 a 0.5 0.5 0 0 1 0 1 c -0.638 0 -1.177 0.213 -1.564 0.434 a 3.49 3.49 0 0 0 -0.436 0.294 V 7.5 H 9 a 0.5 0.5 0 0 1 0 1 h -0.5 v 4.272 c 0.1 0.08 0.248 0.187 0.436 0.294 c 0.387 0.221 0.926 0.434 1.564 0.434 a 0.5 0.5 0 0 1 0 1 a 4.165 4.165 0 0 1 -2.06 -0.566 A 4.561 4.561 0 0 1 8 13.65 a 4.561 4.561 0 0 1 -0.44 0.285 a 4.165 4.165 0 0 1 -2.06 0.566 a 0.5 0.5 0 0 1 0 -1 c 0.638 0 1.177 -0.213 1.564 -0.434 c 0.188 -0.107 0.335 -0.214 0.436 -0.294 V 8.5 H 7 a 0.5 0.5 0 0 1 0 -1 h 0.5 V 3.228 a 3.49 3.49 0 0 0 -0.436 -0.294 A 3.166 3.166 0 0 0 5.5 2.5 A 0.5 0.5 0 0 1 5 2 z M 10 5 v 7 h 4 a 2 2 0 0 0 2 -2 V 6 a 2 2 0 0 0 -2 -2 h -4 z M 6 5 V 4 H 2 a 2 2 0 0 0 -2 2 v 4 a 2 2 0 0 0 2 2 h 4 v -1 z",
+                          },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.materia.teacher,
+                          expression: "materia.teacher",
+                        },
+                      ],
+                      staticClass:
+                        "shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                      attrs: {
+                        type: "text",
+                        required: "",
+                        pattern:
+                          "(^[A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]{1,20})+(([\\s][A-ZÁÉÍÓÚÑ]{1}[a-záéíóúñ]{1,20})+)*$",
+                        title: "Ingrese el nombre del docente",
+                        placeholder: "Docente",
+                      },
+                      domProps: { value: _vm.materia.teacher },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.materia, "teacher", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full md:w-1/4 mb-1 px-4 flex items-center",
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass:
+                          "h-full w-12 rounded-l-lg bg-gray-500 fill-gray-200 stroke-1 stroke-black",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 40 24",
+                        },
+                      },
+                      [
+                        _c(
+                          "text",
+                          {
+                            attrs: {
+                              x: "24",
+                              y: "15",
+                              "font-family": "Verdana",
+                              "font-size": "10",
+                            },
+                          },
+                          [_vm._v("De")]
+                        ),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            d: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+                          },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.materia.start,
+                          expression: "materia.start",
+                        },
+                      ],
+                      staticClass:
+                        "shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                      attrs: {
+                        type: "time",
+                        required: "",
+                        title: "Ingrese la hora de inicio de la materia",
+                      },
+                      domProps: { value: _vm.materia.start },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.materia, "start", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full md:w-1/4 mb-1 px-4 flex items-center",
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass:
+                          "h-full w-12 rounded-l-lg bg-gray-500 fill-gray-200 stroke-1 stroke-black",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 40 24",
+                        },
+                      },
+                      [
+                        _c(
+                          "text",
+                          {
+                            attrs: {
+                              x: "24",
+                              y: "15",
+                              "font-family": "Verdana",
+                              "font-size": "10",
+                            },
+                          },
+                          [_vm._v("A")]
+                        ),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            d: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+                          },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.materia.finish,
+                          expression: "materia.finish",
+                        },
+                      ],
+                      staticClass:
+                        "shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                      attrs: {
+                        type: "time",
+                        required: "",
+                        title: "Ingrese la hora de fin de la materia",
+                      },
+                      domProps: { value: _vm.materia.finish },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.materia, "finish", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full md:w-1/2 mb-1 px-4 flex items-center",
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass:
+                          "h-full w-8 rounded-l-lg bg-gray-500 fill-gray-200 stroke-1 stroke-black",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 24 24",
+                        },
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z",
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z",
+                          },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.materia.room,
+                          expression: "materia.room",
+                        },
+                      ],
+                      staticClass:
+                        "shadow appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                      attrs: {
+                        type: "text",
+                        required: "",
+                        pattern: "^[#._0-9a-zA-Z\\s,-]+$",
+                        title: "Ingrese el salón de la materia",
+                        placeholder: "Salón de la matería",
+                      },
+                      domProps: { value: _vm.materia.room },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.materia, "room", $event.target.value)
+                        },
+                      },
+                    }),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "w-full md:w-1/4 mb-1 px-4 flex items-center",
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass:
+                          "h-full w-8 rounded-l-lg bg-gray-500 fill-gray-200 stroke-1 stroke-black",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 24 24",
+                        },
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            d: "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z",
+                          },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.materia.day,
+                            expression: "materia.day",
+                          },
+                        ],
+                        staticClass:
+                          "shadow border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                        attrs: {
+                          required: "",
+                          title: "Ingrese en que día la semana hay clases",
+                        },
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.materia,
+                              "day",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Dias de la semana"),
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.days, function (day) {
+                          return _c(
+                            "option",
+                            { key: day, domProps: { value: day } },
+                            [_vm._v(_vm._s(day))]
+                          )
+                        }),
+                      ],
+                      2
+                    ),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "flex items-center justify-end p-4 space-x-4" },
+                [
+                  _c("input", {
+                    staticClass: "hidden",
+                    attrs: { type: "reset", id: "resetMat" },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "resetMat" } }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bg-red-400 hover:bg-red-500 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full",
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticClass:
+                              "h-6 w-6 stroke-white stroke-2 fill-transparent",
+                            attrs: {
+                              xmlns: "http://www.w3.org/2000/svg",
+                              viewBox: "0 0 24 24",
+                            },
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                d: "M9 13h6m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
+                              },
+                            }),
+                          ]
+                        ),
+                      ]
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "hidden",
+                    attrs: { type: "submit", id: "saveMat" },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "saveMat" } }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bg-green-500 hover:bg-green-600 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full",
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticClass:
+                              "h-6 w-6 stroke-white stroke-2 fill-transparent",
+                            attrs: {
+                              xmlns: "http://www.w3.org/2000/svg",
+                              viewBox: "0 0 24 24",
+                            },
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                d: "M12 4v16m8-8H4",
+                              },
+                            }),
+                          ]
+                        ),
+                      ]
+                    ),
+                  ]),
+                ]
+              ),
+            ]
+          ),
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "container mx-auto border-2 border-stone-600 rounded-t-lg w-11/12 h-fit bg-neutral-800",
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex justify-between items-center p-4 bg-neutral-800 rounded-lg text-white",
+            },
+            [
+              _c("h1", { staticClass: "text-2xl font-bold" }, [
+                _vm._v("Lista de Materias"),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex items-center" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "w-14 h-14 bg-neutral-800 hover:bg-neutral-700 ease-out duration-300 text-white font-bold py-2 px-4 rounded-full",
+                    attrs: {
+                      "data-target": "tableMat",
+                      onclick: "showHide(this)",
+                    },
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass:
+                          "h-6 w-6 stroke-white stroke-2 fill-transparent",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          viewBox: "0 0 24 24",
+                        },
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            d: "M19 9l-7 7-7-7",
+                          },
+                        }),
+                      ]
+                    ),
+                  ]
+                ),
+              ]),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "bg-neutral-300 flex md:justify-start items-center p-4 text-white shadow-inner overflow-auto justify-start flex-row",
+              attrs: { id: "tableMat" },
+            },
+            [
+              _c("table", { staticClass: "table-auto w-full" }, [
+                _c(
+                  "thead",
+                  { staticClass: "bg-black bg-stripe bg-stripe-white" },
+                  [
+                    _c("tr", [
+                      _c(
+                        "th",
+                        {
+                          staticClass:
+                            "px-4 py-2 rounded-tl-lg bg-gray-200/25 duration-500",
+                          attrs: { colspan: "9" },
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "flex justify-between items-center",
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass:
+                                    "h-10 w-8 rounded-l-lg bg-white hover:bg-gray-300 duration-500 fill-gray-100/25 stroke-2 stroke-black",
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    viewBox: "0 0 24 24",
+                                  },
+                                  on: { click: _vm.searchMateria },
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      "stroke-linecap": "round",
+                                      "stroke-linejoin": "round",
+                                      d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z",
+                                    },
+                                  }),
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.word,
+                                    expression: "word",
+                                  },
+                                ],
+                                staticClass:
+                                  "w-full h-10 px-4 py-2 bg-gray-100 border-2 border-transparent rounded-r-lg text-gray-700",
+                                attrs: { type: "text", placeholder: "Buscar" },
+                                domProps: { value: _vm.word },
+                                on: {
+                                  keyup: _vm.searchMateria,
+                                  input: function ($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.word = $event.target.value
+                                  },
+                                },
+                              }),
+                            ]
+                          ),
+                        ]
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.materias, function (materia) {
+                    return _c(
+                      "tr",
+                      {
+                        key: materia.idMateria,
+                        staticClass:
+                          "text-black hover:bg-gray-400 duration-500",
+                        on: {
+                          click: function ($event) {
+                            return _vm.showMateria(materia)
+                          },
+                        },
+                      },
+                      [
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "bg-gray-100 hover:bg-gray-200 duration-500 px-4 py-2",
+                          },
+                          [_vm._v(_vm._s(materia.name))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2",
+                          },
+                          [_vm._v(_vm._s(materia.teacher))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2",
+                          },
+                          [_vm._v(_vm._s(materia.day))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2",
+                          },
+                          [_vm._v(_vm._s(materia.start))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2",
+                          },
+                          [_vm._v(_vm._s(materia.finish))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2",
+                          },
+                          [_vm._v(_vm._s(materia.room))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "bg-gray-100 hover:bg-gray-200 duration-500 border-l px-4 py-2 items-center",
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.delMateria(materia)
+                                  },
+                                },
+                              },
+                              [
+                                _c(
+                                  "svg",
+                                  {
+                                    staticClass:
+                                      "h-8 w-8 duration-500 fill-red-500 stroke-0",
+                                    attrs: {
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                      viewBox: "0 0 16 16",
+                                    },
+                                  },
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        d: "M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z",
+                                      },
+                                    }),
+                                  ]
+                                ),
+                              ]
+                            ),
+                          ]
+                        ),
+                      ]
+                    )
+                  }),
+                  0
+                ),
+              ]),
+            ]
+          ),
+        ]
+      ),
+    ]
+  )
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex items-center" }, [
+      _c("h1", { staticClass: "text-lg md:text-2xl font-bold" }, [
+        _vm._v("Materias"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", { staticClass: "text-white" }, [
+      _c(
+        "th",
+        { staticClass: "bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2" },
+        [_vm._v("Nombre")]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        { staticClass: "bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2" },
+        [_vm._v("Docente")]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        { staticClass: "bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2" },
+        [_vm._v("Día")]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        { staticClass: "bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2" },
+        [_vm._v("Entrada")]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        { staticClass: "bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2" },
+        [_vm._v("Salida")]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        { staticClass: "bg-gray-500 hover:bg-gray-400 duration-500 px-4 py-2" },
+        [_vm._v("Salón")]
       ),
       _vm._v(" "),
       _c("th", {
